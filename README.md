@@ -1,7 +1,6 @@
 
 # ChatApp
 
-![ChatApp](https://via.placeholder.com/728x90.png?text=ChatApp+Logo)
 
 Welcome to ChatApp, a real-time messaging application that keeps you connected with your friends and colleagues. With an intuitive interface and a range of features, ChatApp makes communication seamless and fun.
 

@@ -1,0 +1,14 @@
+
+let url = "";
+if (process.env.stage === "local") {
+  url = "http://localhost:5173/";
+} else if (process.env.stage === "local-ip") {
+  url = "http://192.168.192.183:5173/";
+} else {
+  url = "";
+}
+const baseUrl = Object.freeze({
+  url,
+});
+
+exports.baseURL = baseUrl.url;

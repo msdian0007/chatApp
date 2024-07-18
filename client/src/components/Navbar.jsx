@@ -36,7 +36,7 @@ export const Navbar = () => {
                 </div>
               </div>
             ) : (
-              <div className="content-center lg:text-md text-xs">
+              <div className="content-center lg:text-md text-xs cursor-pointer">
                 <a onClick={logOut}>Logout</a>
               </div>
             )}

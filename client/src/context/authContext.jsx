@@ -73,7 +73,11 @@ export const AuthProvider = ({ children }) => {
         window.location = "/";
       }
     } catch (error) {
-      openNotification("error", error.message);
+      if (error.response && error.response.data) {
+        openNotification("error", error.response.data.message);
+      } else {
+        openNotification("error", "An error occurred. Please try again.");
+      }
       console.log(error);
     }
   }, [loginInfo]);

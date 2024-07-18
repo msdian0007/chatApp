@@ -79,7 +79,12 @@ export const Notifications = () => {
           size="small"
           count={unreadNotifications?.length}
         >
-          <Avatar className="lg:scale-100 scale-75" shape="circle" size="default" icon={"🔔"} />
+          <Avatar
+            className="lg:scale-100 scale-75"
+            shape="circle"
+            size="default"
+            icon={"🔔"}
+          />
         </Badge>
       </Popover>
     </>

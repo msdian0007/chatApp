@@ -20,7 +20,7 @@ export const Navbar = () => {
               </div>
             )}
           </div>
-          <div className="flex gap-1 lg:gap-2">
+          <div className="flex gap-1 lg:gap-3 my-auto">
             <Notifications />
             {!user ? (
               <div className="flex flex-col my-auto text-right lg:text-md text-xs">

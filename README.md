@@ -96,22 +96,29 @@ Open your browser and navigate to `http://localhost:3000` to see the application
 
 ## Screenshots
 
-- ![Login Screen](images/login.png)
-*Login Screen*
-- ![Register Screen](images/register.png)
-*Register Screen*
-- ![Home Screen](images/chat-list.png)
-*Home Screen*
-- ![Chat Screen](images/chat-view.png)
-*Chat Screen*
-- ![Notification Screen](images/notification-list.png)
-*Notification Screen*
-- ![Chat-List Mobile Screen](images/chat-list-mobile.png)
-*Chat-List Mobile Screen*
-- ![Chat Mobile Screen](images/chat-mobile-view.png)
-*Chat Mobile Screen*
-- ![Chat Mobile Screen](images/chat-mobile-view-2.png)
-*Chat Mobile Screen*
+- *Login Screen*
+![Login Screen](images/login.png)
+
+- *Register Screen*
+![Register Screen](images/register.png)
+
+- *Home Screen*
+![Home Screen](images/chat-list.png)
+
+- *Chat Screen*
+![Chat Screen](images/chat-view.png)
+
+- *Notification Screen*
+![Notification Screen](images/notification-list.png)
+
+- *Chat-List Mobile Screen*
+![Chat-List Mobile Screen](images/chat-list-mobile.png)
+
+- *Chat Mobile Screen*
+![Chat Mobile Screen](images/chat-mobile-view.png)
+
+- *Chat Mobile Screen*
+![Chat Mobile Screen](images/chat-mobile-view-2.png)
 
 ## Contributing
 

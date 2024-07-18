@@ -98,9 +98,20 @@ Open your browser and navigate to `http://localhost:3000` to see the application
 
 ![Login Screen](images/login.png)
 *Login Screen*
-
-![Chat Interface](https://via.placeholder.com/728x400.png?text=Chat+Interface)
-*Chat Interface*
+![Login Screen](images/register.png)
+*Register Screen*
+![Login Screen](images/chat-list.png)
+*Home Screen*
+![Login Screen](images/chat-view.png)
+*Chat Screen*
+![Login Screen](images/notification-list.png)
+*Notification Screen*
+![Login Screen](images/chat-list-mobile.png)
+*Chat-List Mobile Screen*
+![Login Screen](images/chat-mobile-view.png)
+*Chat Mobile Screen*
+![Login Screen](images/chat-mobile-view2.png)
+*Chat Mobile Screen*
 
 ## Contributing
 

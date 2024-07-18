@@ -96,7 +96,7 @@ Open your browser and navigate to `http://localhost:3000` to see the application
 
 ## Screenshots
 
-![Login Screen](https://drive.google.com/file/d/1vD7BmXVPiIreveOn_2RQb-pKqUS9TXtU/view?usp=drive_link)
+![Login Screen](images/login.png)
 *Login Screen*
 
 ![Chat Interface](https://via.placeholder.com/728x400.png?text=Chat+Interface)

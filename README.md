@@ -97,21 +97,21 @@ Open your browser and navigate to `http://localhost:3000` to see the application
 ## Screenshots
 
 ![Login Screen](images/login.png)
--*Login Screen*
+- *Login Screen*
 ![Register Screen](images/register.png)
--*Register Screen*
+- *Register Screen*
 ![Home Screen](images/chat-list.png)
--*Home Screen*
+- *Home Screen*
 ![Chat Screen](images/chat-view.png)
--*Chat Screen*
+- *Chat Screen*
 ![Notification Screen](images/notification-list.png)
--*Notification Screen*
+- *Notification Screen*
 ![Chat-List Mobile Screen](images/chat-list-mobile.png)
--*Chat-List Mobile Screen*
+- *Chat-List Mobile Screen*
 ![Chat Mobile Screen](images/chat-mobile-view.png)
--*Chat Mobile Screen*
-![Chat Mobile Screen](images/chat-mobile-view2.png)
--*Chat Mobile Screen*
+- *Chat Mobile Screen*
+![Chat Mobile Screen](images/chat-mobile-view-2.png)
+- *Chat Mobile Screen*
 
 ## Contributing
 

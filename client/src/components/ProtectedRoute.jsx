@@ -5,7 +5,6 @@ import { Spin } from "antd";
 const ProtectedRoute = ({ children }) => {
   const { user, loading } = useAuth();
   // const { user, loading } = useContext(AuthContext);
-  console.log(loading)
   const location = useLocation();
   if (loading) {
     return (

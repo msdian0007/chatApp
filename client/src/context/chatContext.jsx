@@ -96,7 +96,6 @@ const ChatProvider = ({ children, user }) => {
 
   const markAllAsRead = useCallback((modNot) => {
     const updatedNotifications = modNot.map((n) => ({ ...n, isRead: true }));
-    console.log(updatedNotifications);
     setNotifications(updatedNotifications);
   }, []);
 
@@ -181,7 +180,6 @@ const ChatProvider = ({ children, user }) => {
   useEffect(() => {
     if (socket === null && !user) return;
     socket.on("getOnlineUsers", (users) => {
-      console.log(users);
       setOnlineUsers(users);
     });
 

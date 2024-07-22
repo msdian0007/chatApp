@@ -45,7 +45,7 @@ export const registerUser = async (req, res) => {
       name,
       email,
       token: `Bearer ${token}`,
-      message: "Successfully Registered",
+      message: "Congratulations, your account has been successfully created",
     });
   } catch (error) {
     res.status(500).json(error);
@@ -77,6 +77,7 @@ export const loginUser = async (req, res) => {
       name: user.name,
       email,
       token: `Bearer ${token}`,
+      message:"You are successfully logged in"
     });
   } catch (error) {
     res.status(500).json(error);

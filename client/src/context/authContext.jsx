@@ -40,7 +40,6 @@ export const AuthProvider = ({ children }) => {
         setUser(response.data);
         setLoading(false);
         openNotification("success", response.data.message);
-        window.location = "/";
       }
     } catch (error) {
       console.log(error);
@@ -70,7 +69,6 @@ export const AuthProvider = ({ children }) => {
         setUser(response.data);
         setLoading(false);
         openNotification("success", response.data.message);
-        window.location = "/";
       }
     } catch (error) {
       if (error.response && error.response.data) {

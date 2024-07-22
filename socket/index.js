@@ -37,4 +37,4 @@ io.on("connection", (socket) => {
   });
 });
 
-io.listen(3001);
+io.listen(process.env.stage === "prod" ? process.env.PORT : 3001);

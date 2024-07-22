@@ -160,11 +160,12 @@ button:focus-visible {
 }
 
 .message {
+  max-width: 80%;
   color: white;
   background: #282828;
   padding: 2px 12px;
   border-radius: 5px;
-  max-width: 100%;
+  /* max-width: 100%; */
   align-self: flex-start;
   text-align: left;
   overflow-wrap: break-word;
@@ -174,7 +175,7 @@ button:focus-visible {
   color: rgb(75, 72, 72);
   background: rgb(231, 230, 227);
   align-self: flex-end;
-  text-align: right;
+  /* text-align: right; */
 }
 
 .message-footer {
@@ -291,6 +292,7 @@ button:focus-visible {
   align-items: center;
   justify-content: center;
 }
+
 
 ::-webkit-scrollbar {
   display: none;

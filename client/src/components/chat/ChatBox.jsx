@@ -1,10 +1,11 @@
 import moment from "moment";
 import { useChat } from "../../context/chatContext";
 import { useFetchUser } from "../../hooks/useFetchUser";
-import { useEffect, useRef, useState } from "react";
-import InputEmoji from "react-input-emoji";
+import { useCallback, useEffect, useRef, useState } from "react";
+
 import { ChatMessagesSkeleton } from "../skeleton";
 import { ArrowLeftOutlined } from "@ant-design/icons";
+import { InputEmojiWrapper } from "./EmojiWrapper";
 
 export const ChatBox = ({ user, setIsChatBoxOpen }) => {
   const { messages, messagesLoading, currentChat, sendTextMessage } = useChat();
@@ -19,6 +20,10 @@ export const ChatBox = ({ user, setIsChatBoxOpen }) => {
   useEffect(() => {
     messageScrollRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
+
+  const handleOnMessageType = useCallback((text) => {
+    setTextMessage(text)
+  }, []);
 
   if (messagesLoading) return <ChatMessagesSkeleton />;
   if (!currentChat)
@@ -41,7 +46,7 @@ export const ChatBox = ({ user, setIsChatBoxOpen }) => {
           <strong>{recipient?.name}</strong>
           <span></span>
         </div>
-        <div className="messages lg:pb-[46px] pt-2 pb-5 px-1 lg:px-4">
+        <div className="messages lg:pb-[46px] pt-2 pb-5 px-3 lg:px-4">
           {messages &&
             messages.map((m, i) => (
               <div
@@ -59,11 +64,9 @@ export const ChatBox = ({ user, setIsChatBoxOpen }) => {
             ))}
         </div>
         <div className="chat-input absolute left-0 right-0 bottom-0 flex justify-between items-center">
-          <InputEmoji
-            value={textMessage}
-            onChange={(e) => setTextMessage(e)}
-            fontFamily="nunito"
-            borderColor="rgba(72, 112, 223, 0.2)"
+          <InputEmojiWrapper
+            text={textMessage}
+            handleChange={handleOnMessageType}
           />
           <button
             className=" bg-sky-600 items-end content-center rounded-full h-8 w-8"

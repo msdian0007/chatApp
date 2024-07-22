@@ -1,9 +1,10 @@
 import { Navigate } from "react-router-dom";
 import { useAuth } from "../context/authContext";
+import { useState } from "react";
 
 export const LogIn = () => {
   const { logIn, user, updateLoginInfo, loginInfo } = useAuth();
-
+  const [viewPassword, setHandleViewPassword] = useState(false);
   return (
     <>
       {user ? <Navigate to={"/"} /> : null}
@@ -21,13 +22,21 @@ export const LogIn = () => {
           </div>
           <div className="col-span-4 grid grid-cols-1 gap-1 pb-4">
             <label htmlFor="">Password</label>
-            <input
-              type="password"
-              className="bg-neutral-600 px-2 py-1 rounded-md"
-              onChange={(e) =>
-                updateLoginInfo({ ...loginInfo, password: e.target.value })
-              }
-            />
+            <div className="relative">
+              <input
+                type={`${!viewPassword ? "password" : "text"}`}
+                className="bg-neutral-600 px-2 py-1 rounded-md"
+                onChange={(e) =>
+                  updateLoginInfo({ ...loginInfo, password: e.target.value })
+                }
+              />
+              <span
+                className="cursor-pointer absolute right-2 top-1"
+                onClick={() => setHandleViewPassword(!viewPassword)}
+              >
+                👁
+              </span>
+            </div>
           </div>
           <div className="col-span-4 grid grid-cols-1 gap-1 pb-2">
             <button

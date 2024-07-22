@@ -22,7 +22,7 @@ export const PotentialChats = ({ user }) => {
   };
   return (
     <>
-      <div className="flex gap-2">
+      <div className="flex gap-2 scrollbar overflow-x-scroll overflow-y-hidden">
         {potentialChatsLoading ? (
           <PotentialChatsSkeleton />
         ) : (

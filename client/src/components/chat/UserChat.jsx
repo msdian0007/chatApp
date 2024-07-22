@@ -36,7 +36,7 @@ export default function UserChat({ chat, user, index, setIsChatBoxOpen }) {
       return (
         <div className="flex text-[12px]">
           <div className="font-bold text-orange-400 pr-1">you:</div>
-          <div className="text-clip overflow-hidden">{lastMessage?.text}</div>
+          <div className="truncate">{lastMessage?.text}</div>
         </div>
       );
     } else {

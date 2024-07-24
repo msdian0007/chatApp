@@ -9,30 +9,24 @@ const createToken = async (_id) => {
 
 export const registerUser = async (req, res) => {
   try {
-    
-    const { name, email, password } = req.body;
-    if (!name || !email || !password)
+    const { firstName, lastName, phoneNumber, password } = req.body;
+    if (!firstName || !lastName || !phoneNumber || !password)
       return res.status(400).json({ message: "All fields are Mandatory" });
-    if (!validator.isEmail(email))
-      return res.status(400).json({ message: "Invalid Email Address" });
+    if (!validator.isMobilePhone(phoneNumber))
+      return res.status(400).json({ message: "Invalid phone number" });
     if (!validator.isStrongPassword(password))
       return res.status(400).json({ message: "Password need to be Strong" });
 
-    let user = await userModal.findOne({ email });
+    let user = await userModal.findOne({ phoneNumber });
     if (user)
       return res.status(400).json({ message: "User already registered" });
 
-    user = new userModal({ name, email, password });
+    user = new userModal({ firstName, lastName, phoneNumber, password });
 
     const salt = await bcrypt.genSalt(10);
     user.password = await bcrypt.hash(password, salt);
 
-    await user
-      .save()
-      .then(() => {})
-      .catch((err) => {
-        console.log(err);
-      });
+    await user.save();
 
     const token = await createToken(user._id);
     res.cookie("token", `Bearer ${token}`, {
@@ -42,8 +36,9 @@ export const registerUser = async (req, res) => {
     });
     res.status(200).json({
       _id: user._id,
-      name,
-      email,
+      firstName,
+      lastName,
+      phoneNumber,
       token: `Bearer ${token}`,
       message: "Congratulations, your account has been successfully created",
     });
@@ -54,18 +49,17 @@ export const registerUser = async (req, res) => {
 
 export const loginUser = async (req, res) => {
   try {
-    console.log("111111")
-    const { email, password } = req.body;
-    if (!email || !password)
+    const { phoneNumber, password } = req.body;
+    if (!phoneNumber || !password)
       return res.status(400).json({ message: "All fields are Mandatory" });
 
-    let user = await userModal.findOne({ email });
+    let user = await userModal.findOne({ phoneNumber });
     if (!user)
-      return res.status(400).json({ message: "Invalid email or password" });
+      return res.status(400).json({ message: "Invalid Number or password" });
 
     let validPassword = await bcrypt.compare(password, user.password);
     if (!validPassword)
-      return res.status(400).json({ message: "Invalid email or password" });
+      return res.status(400).json({ message: "Invalid Number or password" });
 
     const token = await createToken(user._id);
     res.cookie("token", `Bearer ${token}`, {
@@ -75,10 +69,11 @@ export const loginUser = async (req, res) => {
     });
     res.status(200).json({
       _id: user._id,
-      name: user.name,
-      email,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      phoneNumber,
       token: `Bearer ${token}`,
-      message:"You are successfully logged in"
+      message: "You are successfully logged in",
     });
   } catch (error) {
     res.status(500).json(error);

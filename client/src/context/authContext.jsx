@@ -14,12 +14,13 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState(null);
   const [registerInfo, setRegisterInfo] = useState({
-    name: "",
-    email: "",
+    firstName: "",
+    lastName: "",
+    phoneNumber: "",
     password: "",
   });
   const [loginInfo, setLoginInfo] = useState({
-    email: "",
+    phoneNumber: "",
     password: "",
   });
 
@@ -32,7 +33,12 @@ export const AuthProvider = ({ children }) => {
 
   const registerUser = useCallback(async () => {
     try {
-      if (!registerInfo.email && !registerInfo.password && !registerInfo.name)
+      if (
+        !registerInfo.phoneNumber &&
+        !registerInfo.password &&
+        !registerInfo.firstName &&
+        !registerInfo.lastName
+      )
         return openNotification("warning", "All fields required");
       const response = await axiosInstance.post("/user/register", registerInfo);
       if (response.data) {
@@ -42,6 +48,11 @@ export const AuthProvider = ({ children }) => {
         openNotification("success", response.data.message);
       }
     } catch (error) {
+      if (error.response && error.response.data?.message) {
+        openNotification("error", error.response.data.message);
+      } else {
+        openNotification("error", "An error occurred. Please try again.");
+      }
       console.log(error);
     }
   }, [registerInfo]);
@@ -61,7 +72,7 @@ export const AuthProvider = ({ children }) => {
 
   const logIn = useCallback(async () => {
     try {
-      if (!loginInfo.email && !loginInfo.password)
+      if (!loginInfo.phoneNumber && !loginInfo.password)
         return openNotification("warning", "All fields required");
       const response = await axiosInstance.post("/user/login", loginInfo);
       if (response.data) {

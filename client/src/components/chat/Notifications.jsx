@@ -14,7 +14,7 @@ export const Notifications = () => {
     let sender = allUsers.find((u) => u._id === n.senderId);
     return {
       ...n,
-      senderName: sender?.name,
+      senderName: sender?.firstName,
     };
   });
 
@@ -75,12 +75,12 @@ export const Notifications = () => {
         //   arrow={mergedArrow}
       >
         <Badge
-          className="cursor-pointer content-center"
+          className="content-center cursor-pointer"
           size="small"
           count={unreadNotifications?.length}
         >
           <Avatar
-            className="lg:scale-100 scale-75"
+            className="scale-75 lg:scale-100"
             shape="circle"
             size="default"
             icon={"🔔"}

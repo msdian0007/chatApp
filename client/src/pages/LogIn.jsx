@@ -10,38 +10,38 @@ export const LogIn = () => {
       {user ? <Navigate to={"/"} /> : null}
       <div className="flex justify-center min-h-[calc(100vh-10vh)]">
         <div className="grid grid-cols-4 my-auto ">
-          <div className="col-span-4 grid grid-cols-1 gap-1 pb-2">
-            <label htmlFor="">Email</label>
+          <div className="grid grid-cols-1 col-span-4 gap-1 pb-2">
+            <label htmlFor="">Mobile Number</label>
             <input
-              type="email"
-              className="bg-neutral-600 px-2 py-1 rounded-md"
+              type="number"
+              className="px-2 py-1 rounded-md bg-neutral-600"
               onChange={(e) =>
-                updateLoginInfo({ ...loginInfo, email: e.target.value })
+                updateLoginInfo({ ...loginInfo, phoneNumber: e.target.value })
               }
             />
           </div>
-          <div className="col-span-4 grid grid-cols-1 gap-1 pb-4">
+          <div className="grid grid-cols-1 col-span-4 gap-1 pb-4">
             <label htmlFor="">Password</label>
             <div className="relative">
               <input
                 type={`${!viewPassword ? "password" : "text"}`}
-                className="bg-neutral-600 px-2 py-1 rounded-md"
+                className="px-2 py-1 rounded-md bg-neutral-600"
                 onChange={(e) =>
                   updateLoginInfo({ ...loginInfo, password: e.target.value })
                 }
               />
               <span
-                className="cursor-pointer absolute right-2 top-1"
+                className="absolute cursor-pointer right-2 top-1"
                 onClick={() => setHandleViewPassword(!viewPassword)}
               >
                 👁
               </span>
             </div>
           </div>
-          <div className="col-span-4 grid grid-cols-1 gap-1 pb-2">
+          <div className="grid grid-cols-1 col-span-4 gap-1 pb-2">
             <button
               onClick={logIn}
-              className="bg-blue-600 px-2 py-1 rounded-md"
+              className="px-2 py-1 bg-blue-600 rounded-md"
             >
               Log In
             </button>

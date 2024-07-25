@@ -13,7 +13,6 @@ export const PotentialChats = ({ user }) => {
       )
     );
   };
-
   const getNameInitial = (name) => {
     return name
       .split(" ")
@@ -22,7 +21,7 @@ export const PotentialChats = ({ user }) => {
   };
   return (
     <>
-      <div className="flex gap-2 scrollbar overflow-x-scroll overflow-y-hidden">
+      <div className="flex gap-2 overflow-x-scroll overflow-y-hidden scrollbar">
         {potentialChatsLoading ? (
           <PotentialChatsSkeleton />
         ) : (
@@ -31,16 +30,18 @@ export const PotentialChats = ({ user }) => {
             return (
               <div
                 key={i}
-                className="flex flex-col items-center w-14 p-2 rounded-lg cursor-pointer  border-b-2 mb-2"
+                className="flex flex-col items-center p-2 mb-2 border-b-2 rounded-lg cursor-pointer w-14"
                 onClick={() => createChat(user?._id, pc?._id)}
               >
                 <div className="relative w-7 h-7">
                   <div className="w-full h-full rounded-full object-cover text-[12px] bg-violet-600 text-center content-center">
-                    {getNameInitial(pc?.name)}
+                    {getNameInitial(pc?.firstName + " " + pc?.lastName)}
                   </div>
                   {isUserOnline(pc._id)}
                 </div>
-                <div className="mt-1 text-[9px] text-center">{pc?.name}</div>
+                <div className="mt-1 text-[9px] text-center">
+                  {pc?.firstName}
+                </div>
               </div>
             );
           })

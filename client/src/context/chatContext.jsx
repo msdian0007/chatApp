@@ -9,6 +9,7 @@ import {
   useCallback,
 } from "react";
 import { baseURL } from "../constants";
+import { handleError } from "../utils/handleError";
 
 const ChatContext = createContext(null);
 
@@ -25,6 +26,7 @@ const ChatProvider = ({ children, user }) => {
   const [socket, setSocket] = useState(null);
   const [onlineUsers, setOnlineUsers] = useState([]);
   const [notifications, setNotifications] = useState([]);
+  const [isNewFriendAdded, setIsNewFriendAdded] = useState(false);
 
   const createChat = useCallback(async (firstId, secondId) => {
     try {
@@ -38,7 +40,7 @@ const ChatProvider = ({ children, user }) => {
         setChatLoading(false);
       }
     } catch (error) {
-      console.log(error);
+      handleError(error);
     }
   }, []);
 
@@ -58,7 +60,7 @@ const ChatProvider = ({ children, user }) => {
           setTextMessage("");
         }
       } catch (error) {
-        console.log(error);
+        handleError(error);
       }
     },
     []
@@ -88,7 +90,7 @@ const ChatProvider = ({ children, user }) => {
           setNotifications(updatedNotifications);
         }
       } catch (error) {
-        console.log(error);
+        handleError(error);
       }
     },
     [notifications]
@@ -110,7 +112,7 @@ const ChatProvider = ({ children, user }) => {
           setChatLoading(false);
         }
       } catch (error) {
-        console.log(error);
+        handleError(error);
       }
     };
     getUserChat();
@@ -121,7 +123,9 @@ const ChatProvider = ({ children, user }) => {
     const getUsers = async () => {
       try {
         setPotentialChatsLoading(true);
-        const response = await axiosInstance.get(`/user/find`);
+        const response = await axiosInstance.get(
+          `/user/getAllFriends/${user._id}`
+        );
         if (response.data) {
           const pChats = response.data.filter((u) => {
             let isChatCreated = false;
@@ -138,11 +142,12 @@ const ChatProvider = ({ children, user }) => {
           setPotentialChatsLoading(false);
         }
       } catch (error) {
-        console.log(error);
+        setPotentialChatsLoading(false);
+        handleError(error);
       }
     };
     getUsers();
-  }, [userChat]);
+  }, [userChat, isNewFriendAdded]);
 
   useEffect(() => {
     const getMessages = async () => {
@@ -156,7 +161,7 @@ const ChatProvider = ({ children, user }) => {
           setMessagesLoading(false);
         }
       } catch (error) {
-        console.log(error);
+        handleError(error);
       }
     };
     if (!currentChat) return;
@@ -239,6 +244,7 @@ const ChatProvider = ({ children, user }) => {
           notifications,
           openNewChat,
           markAllAsRead,
+          setIsNewFriendAdded,
         }}
       >
         {children}

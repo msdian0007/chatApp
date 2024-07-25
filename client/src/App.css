@@ -8,10 +8,8 @@
 }
 
 body {
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-  
-
+  color: var(--primary-color);
+  background-color: var(--secondary-color);
 }
 
 

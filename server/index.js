@@ -12,7 +12,7 @@ dotenv.config();
 app.use(express.json());
 app.use(
   cors({
-    origin: "https://chatapp-5f1p.onrender.com",
+    origin: "https://msdian0007.github.io/chatApp",
     credentials: true,
   })
 );

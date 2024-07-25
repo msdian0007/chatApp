@@ -1,9 +1,46 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/authContext";
 import { Notifications } from "./chat/Notifications";
+import { FriendRequests } from "./notification/FriendRequests";
+import { Dropdown } from "antd";
+import {
+  LoginOutlined,
+  MenuOutlined,
+  PoweroffOutlined,
+} from "@ant-design/icons";
 
 export const Navbar = () => {
   const { user, logOut } = useAuth();
+  const nav = useNavigate();
+  const items = !user
+    ? [
+        {
+          label: "Login",
+          key: "1",
+          icon: <LoginOutlined />,
+          onClick: () => {
+            nav("/login");
+          },
+        },
+        {
+          label: "Register",
+          key: "2",
+          icon: <LoginOutlined />,
+          onClick: () => {
+            nav("/register");
+          },
+        },
+      ]
+    : [
+        {
+          label: "Logout",
+          key: "1",
+          icon: <PoweroffOutlined />,
+          onClick: () => {
+            logOut();
+          },
+        },
+      ];
   return (
     <>
       <div className=" bg-slate-700">
@@ -20,9 +57,17 @@ export const Navbar = () => {
               </div>
             )}
           </div>
-          <div className="flex gap-1 my-auto lg:gap-3">
-            <Notifications />
-            {!user ? (
+          <div className="flex gap-2 my-auto lg:gap-6">
+            <div className="lg:flex lg:gap-2">
+              <FriendRequests />
+              <Notifications />
+            </div>
+            <Dropdown menu={{ items }} trigger={["click"]}>
+              <a className="content-center" onClick={(e) => e.preventDefault()}>
+                <MenuOutlined />
+              </a>
+            </Dropdown>
+            {/* {!user ? (
               <div className="flex flex-col my-auto text-xs text-right lg:text-md">
                 <div>
                   <Link className="cursor-pointer " to={"/login"}>
@@ -39,7 +84,7 @@ export const Navbar = () => {
               <div className="content-center text-xs cursor-pointer lg:text-md">
                 <a onClick={logOut}>Logout</a>
               </div>
-            )}
+            )} */}
           </div>
         </div>
       </div>

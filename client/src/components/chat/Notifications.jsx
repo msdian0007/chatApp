@@ -4,6 +4,7 @@ import { UnreadNotifications } from "../../utils/UnreadNotifications";
 import { Avatar, Badge, Button, Popover } from "antd";
 import moment from "moment";
 import { useAuth } from "../../context/authContext";
+import { BellOutlined } from "@ant-design/icons";
 
 export const Notifications = () => {
   const { user } = useAuth();
@@ -83,7 +84,7 @@ export const Notifications = () => {
             className="scale-75 lg:scale-100"
             shape="circle"
             size="default"
-            icon={"🔔"}
+            icon={<BellOutlined />}
           />
         </Badge>
       </Popover>

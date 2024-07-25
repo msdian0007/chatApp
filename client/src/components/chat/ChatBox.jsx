@@ -14,7 +14,8 @@ export const ChatBox = ({ user, setIsChatBoxOpen }) => {
   const messageScrollRef = useRef();
 
   useEffect(() => {
-    getRecipient(currentChat, user);
+    const recipientId = currentChat?.members.find((id) => id !== user?._id);
+    recipientId && getRecipient(recipientId);
   }, [currentChat]);
 
   useEffect(() => {
@@ -69,7 +70,7 @@ export const ChatBox = ({ user, setIsChatBoxOpen }) => {
             handleChange={handleOnMessageType}
           />
           <button
-            className="items-end content-center w-8 h-8 rounded-full  bg-sky-600"
+            className="items-end content-center w-8 h-8 rounded-full bg-sky-600"
             onClick={() =>
               sendTextMessage(
                 textMessage,

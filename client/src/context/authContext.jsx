@@ -7,6 +7,7 @@ import {
 } from "react";
 import axiosInstance from "../api/axios";
 import { notification } from "antd";
+import { handleError } from "../utils/handleError";
 
 const AuthContext = createContext();
 
@@ -48,12 +49,7 @@ export const AuthProvider = ({ children }) => {
         openNotification("success", response.data.message);
       }
     } catch (error) {
-      if (error.response && error.response.data?.message) {
-        openNotification("error", error.response.data.message);
-      } else {
-        openNotification("error", "An error occurred. Please try again.");
-      }
-      console.log(error);
+      handleError(error);
     }
   }, [registerInfo]);
 
@@ -82,12 +78,7 @@ export const AuthProvider = ({ children }) => {
         openNotification("success", response.data.message);
       }
     } catch (error) {
-      if (error.response && error.response.data) {
-        openNotification("error", error.response.data.message);
-      } else {
-        openNotification("error", "An error occurred. Please try again.");
-      }
-      console.log(error);
+      handleError(error);
     }
   }, [loginInfo]);
 

@@ -39,6 +39,8 @@ export const registerUser = async (req, res) => {
       firstName,
       lastName,
       phoneNumber,
+      friends: user.friends,
+      friendRequests: user.friendRequests,
       token: `Bearer ${token}`,
       message: "Congratulations, your account has been successfully created",
     });
@@ -72,6 +74,8 @@ export const loginUser = async (req, res) => {
       firstName: user.firstName,
       lastName: user.lastName,
       phoneNumber,
+      friends: user.friends,
+      friendRequests: user.friendRequests,
       token: `Bearer ${token}`,
       message: "You are successfully logged in",
     });
@@ -98,4 +102,42 @@ export const getUsers = async (req, res) => {
   } catch (error) {
     res.status(500).json(error);
   }
+};
+
+export const getAllFriends = async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const user = await userModal.findOne({ _id: userId }, { friends: 1 });
+    if (!user?.friends.length) return res.status(200).json([]);
+    let objectString = user.friends.toString();
+    let friendIds = objectString.split(",");
+    const friends = await userModal.find({
+      _id: { $in: friendIds },
+    });
+    res.status(200).json(friends);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+};
+
+export const getUsersById = async (req, res) => {
+  try {
+    const { recipientId } = req.body;
+    if (!Array.isArray(recipientId)) {
+      return res
+        .status(400)
+        .json({ error: "Invalid input. Expected an array of IDs." });
+    }
+    const user = await userModal.find({ _id: { $in: recipientId } });
+    res.status(200).json(user);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+};
+
+export const getUserByPhoneNumber = async (req, res) => {
+  const { phoneNumber } = req.params;
+  if (!phoneNumber) return res.status(200).json(null);
+  const user = await userModal.find({ phoneNumber });
+  res.status(200).json(user);
 };

@@ -13,7 +13,6 @@ export const PotentialChats = ({ user }) => {
       )
     );
   };
-
   const getNameInitial = (name) => {
     return name
       .split(" ")

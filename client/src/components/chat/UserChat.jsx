@@ -5,12 +5,13 @@ import { UserChatListSkeleton } from "../skeleton";
 import { UserNotificationCount } from "../../utils/UnreadNotifications";
 import { useFetchChat } from "../../hooks/useFetchChat";
 import moment from "moment";
+import { useHelper } from "../../hooks/useHelper";
 
 export default function UserChat({ chat, user, index, setIsChatBoxOpen }) {
   const { onlineUsers, notifications, updateCurrentChat, messages } = useChat();
   const { getRecipient, recipient, recipientLoading } = useFetchUser();
   const { getLatestMessage, lastMessage } = useFetchChat();
-
+  const { getDpName } = useHelper();
   const unreadNotifications = UserNotificationCount(
     notifications,
     recipient?._id
@@ -35,7 +36,7 @@ export default function UserChat({ chat, user, index, setIsChatBoxOpen }) {
     if (lastMessage && m?.senderId !== recipient?._id) {
       return (
         <div className="flex text-[12px]">
-          <div className="font-bold text-orange-400 pr-1">you:</div>
+          <div className="pr-1 font-bold text-orange-400">you:</div>
           <div className="truncate">{lastMessage?.text}</div>
         </div>
       );
@@ -50,7 +51,8 @@ export default function UserChat({ chat, user, index, setIsChatBoxOpen }) {
   };
 
   useEffect(() => {
-    getRecipient(chat, user);
+    const recipientId = chat?.members.find((id) => id !== user?._id);
+    recipientId && getRecipient(recipientId);
   }, [chat]);
 
   useEffect(() => {
@@ -62,22 +64,24 @@ export default function UserChat({ chat, user, index, setIsChatBoxOpen }) {
         <UserChatListSkeleton />
       ) : (
         <div
-          className="user-card flex justify-between items-center p-2 cursor-pointer"
+          className="flex items-center justify-between p-2 cursor-pointer user-card"
           onClick={handleCurrentChat}
         >
           <div className="flex items-center gap-2">
             <div className="relative w-9 h-9">
-              <div className="w-full h-full rounded-full object-cover bg-slate-400 text-center content-center">
-                {getNameInitial(recipient?.name)}
+              <div className="content-center object-cover w-full h-full text-center rounded-full bg-slate-400">
+                {getDpName(recipient?.firstName + " " + recipient?.lastName)}
               </div>
               {isUserOnline(recipient?._id)}
             </div>
             <div className="text-content">
-              <div className="name">{recipient?.name}</div>
+              <div className="name">
+                {recipient?.firstName + " " + recipient?.lastName}
+              </div>
               {showLatestMessage(lastMessage)}
             </div>
           </div>
-          <div className="grid text-right items-end">
+          <div className="grid items-end text-right">
             <div className="date !text-[12px]">
               {moment(lastMessage?.updatedAt).calendar()}
             </div>

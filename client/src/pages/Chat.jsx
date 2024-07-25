@@ -4,9 +4,10 @@ import UserChat from "../components/chat/UserChat";
 import { PotentialChats } from "../components/chat/PotentialChats";
 import { ChatBox } from "../components/chat/ChatBox";
 import { useState } from "react";
+import { SearchUsers } from "../components/chat/SearchUsers";
 
 export const Chat = () => {
-  const { userChat, loading } = useChat();
+  const { userChat, chatLoading } = useChat();
   const { user } = useAuth();
 
   const [isChatBoxOpen, setIsChatBoxOpen] = useState(false);
@@ -15,12 +16,15 @@ export const Chat = () => {
       <div className="grid grid-cols-8">
         <div
           className={`${
-            isChatBoxOpen ? "hidden lg:block col-span-3" : "lg:col-span-3 col-span-8"
+            isChatBoxOpen
+              ? "hidden lg:block col-span-3"
+              : "lg:col-span-3 col-span-8"
           } "px-3 my-2 border-r-2"`}
         >
+          <SearchUsers />
           <PotentialChats user={user} />
           <div>
-            {!loading &&
+            {!chatLoading &&
               userChat.map((c, i) => {
                 return (
                   <div key={i}>

@@ -44,7 +44,7 @@ export const Register = () => {
               />
             </div>
             <div className="grid grid-cols-1 col-span-4 gap-1 pb-2">
-              <label htmlFor="">PhoneNumber</label>
+              <label htmlFor="">Phone Number</label>
               <input
                 type="number"
                 className="px-2 py-1 rounded-md bg-neutral-600"

@@ -7,21 +7,37 @@ import { useState } from "react";
 import { SearchUsers } from "../components/chat/SearchUsers";
 
 export const Chat = () => {
+  // HOOKS
   const { userChat, chatLoading } = useChat();
   const { user } = useAuth();
 
+  // STATES
+  const [isSearching, setIsSearching] = useState(0);
   const [isChatBoxOpen, setIsChatBoxOpen] = useState(false);
+
+  // CLEAR SEARCH SCREEN
+  const handleClearSearchScreen = () => {
+    setIsSearching(0);
+  };
   return (
     <>
-      <div className="grid grid-cols-8">
+      <div className="grid grid-cols-8 ">
         <div
           className={`${
             isChatBoxOpen
               ? "hidden lg:block col-span-3"
-              : "lg:col-span-3 col-span-8"
-          } "px-3 my-2 border-r-2"`}
+              : "lg:col-span-3 col-span-8 relative"
+          } "px-3 mb-2  "`}
         >
-          <SearchUsers />
+          <SearchUsers
+            setIsSearching={setIsSearching}
+            isSearching={isSearching}
+          />
+          <div
+            hidden={!isSearching}
+            onClick={handleClearSearchScreen}
+            className="absolute rounded-md z-10 w-full min-h-[calc(100vh-15vh)] bg-black bg-opacity-85"
+          ></div>
           <PotentialChats user={user} />
           <div>
             {!chatLoading &&

@@ -49,42 +49,27 @@ export const Navbar = () => {
             <Link to={"/"}>ChatApp</Link>
           </div>
           <div className="flex gap-1 ">
-            <div className="content-center italic scale-125">🍁</div>
             {user && (
               <div className="content-center">
                 <span>Hi </span>
                 <span className="italic text-amber-500">{user?.firstName}</span>
+                <span>...</span>
               </div>
             )}
+            <div className="content-center italic scale-125">🍁</div>
           </div>
           <div className="flex gap-2 my-auto lg:gap-6">
-            <div className="lg:flex lg:gap-2">
-              <FriendRequests />
-              <Notifications />
-            </div>
+            {user && (
+              <div className="lg:flex lg:gap-2">
+                <FriendRequests />
+                <Notifications />
+              </div>
+            )}
             <Dropdown menu={{ items }} trigger={["click"]}>
               <a className="content-center" onClick={(e) => e.preventDefault()}>
                 <MenuOutlined />
               </a>
             </Dropdown>
-            {/* {!user ? (
-              <div className="flex flex-col my-auto text-xs text-right lg:text-md">
-                <div>
-                  <Link className="cursor-pointer " to={"/login"}>
-                    Login
-                  </Link>
-                </div>
-                <div>
-                  <Link className="cursor-pointer" to={"/register"}>
-                    Register
-                  </Link>
-                </div>
-              </div>
-            ) : (
-              <div className="content-center text-xs cursor-pointer lg:text-md">
-                <a onClick={logOut}>Logout</a>
-              </div>
-            )} */}
           </div>
         </div>
       </div>

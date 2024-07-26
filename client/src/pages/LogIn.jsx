@@ -12,7 +12,7 @@ export const LogIn = () => {
       <div className="flex justify-center min-h-[calc(100vh-10vh)]">
         <div className="grid grid-cols-4 my-auto ">
           <div className="grid grid-cols-1 col-span-4 gap-1 pb-2">
-            <label htmlFor="">Mobile Number</label>
+            <label htmlFor="">Phone Number</label>
             <input
               type="number"
               className="px-2 py-1 rounded-md bg-neutral-600"

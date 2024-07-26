@@ -14,7 +14,7 @@ function App() {
     <>
       <ChatProvider user={user}>
         <Navbar />
-        <div className="lg:px-[46px]">
+        <div className="lg:mx-[8px] mx-2">
           <Routes>
             <Route
               path="/"

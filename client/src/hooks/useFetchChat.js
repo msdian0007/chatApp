@@ -4,11 +4,13 @@ import { message } from "antd";
 import { handleError } from "../utils/handleError";
 
 export const useFetchChat = () => {
+  const [chatReqLoading, setChatReqLoading] = useState(false);
   const [lastMessageLoading, setLastMessageLoading] = useState(true);
   const [lastMessage, setLastMessage] = useState();
   return {
     lastMessageLoading,
     lastMessage,
+    chatReqLoading,
     getLatestMessage: async (chatId) => {
       try {
         const response = await axiosInstance.get(`/messages/latest/${chatId}`);
@@ -22,15 +24,18 @@ export const useFetchChat = () => {
     },
     sendChatRequest: async (senderId, recipientId) => {
       try {
+        setChatReqLoading(true);
         const response = await axiosInstance.post(`/chats/sendChatRequest`, {
           senderId,
           recipientId,
         });
         if (response.data) {
           message.success("Request send successfully");
+          setChatReqLoading(false);
           return response.data;
         }
       } catch (error) {
+        setChatReqLoading(false)
         handleError(error);
       }
     },

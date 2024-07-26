@@ -15,7 +15,7 @@ export const registerUser = async (req, res) => {
     if (!validator.isMobilePhone(phoneNumber))
       return res.status(400).json({ message: "Invalid phone number" });
     if (!validator.isStrongPassword(password))
-      return res.status(400).json({ message: "Password need to be Strong" });
+      return res.status(400).json({ message: "Passwords should be strong e.g.(Msdian@01)" });
 
     let user = await userModal.findOne({ phoneNumber });
     if (user)

@@ -1,6 +1,7 @@
+import { Button } from "antd";
 import { useHelper } from "../../hooks/useHelper";
 
-export const UserListCard = ({ u, handleChatRequest }) => {
+export const UserListCard = ({ u, handleChatRequest, chatReqLoading }) => {
   const { getDpName } = useHelper();
   return (
     <div className="flex items-center justify-between p-2 cursor-pointer">
@@ -14,12 +15,13 @@ export const UserListCard = ({ u, handleChatRequest }) => {
           <div className="name">{u?.firstName + " " + u?.lastName}</div>
         </div>
       </div>
-      <div
+      <Button
+        loading={chatReqLoading}
         onClick={() => handleChatRequest(u?._id)}
-        className="grid items-end content-center px-2 text-sm text-right bg-orange-600 rounded-md cursor-pointer hover:bg-orange-700 "
+        className="content-center px-2 py-1 text-right "
       >
         Chat Request
-      </div>
+      </Button>
     </div>
   );
 };

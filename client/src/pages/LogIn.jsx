@@ -1,9 +1,10 @@
 import { Navigate } from "react-router-dom";
 import { useAuth } from "../context/authContext";
 import { useState } from "react";
+import { Button } from "antd";
 
 export const LogIn = () => {
-  const { logIn, user, updateLoginInfo, loginInfo } = useAuth();
+  const { logIn, user, updateLoginInfo, loginInfo, loginLoading } = useAuth();
   const [viewPassword, setHandleViewPassword] = useState(false);
   return (
     <>
@@ -20,7 +21,7 @@ export const LogIn = () => {
               }
             />
           </div>
-          <div className="grid grid-cols-1 col-span-4 gap-1 pb-4">
+          <div className="grid grid-cols-1 col-span-4 gap-1 pb-7">
             <label htmlFor="">Password</label>
             <div className="relative">
               <input
@@ -39,12 +40,9 @@ export const LogIn = () => {
             </div>
           </div>
           <div className="grid grid-cols-1 col-span-4 gap-1 pb-2">
-            <button
-              onClick={logIn}
-              className="px-2 py-1 bg-blue-600 rounded-md"
-            >
+            <Button onClick={logIn} loading={loginLoading} type="primary">
               Log In
-            </button>
+            </Button>
           </div>
         </div>
       </div>

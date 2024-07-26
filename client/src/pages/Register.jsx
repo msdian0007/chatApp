@@ -3,8 +3,13 @@ import { useAuth } from "../context/authContext";
 import { Button } from "antd";
 import { useState } from "react";
 export const Register = () => {
-  const { registerInfo, user, updateRegisterInfo, registerUser, loading } =
-    useAuth();
+  const {
+    registerInfo,
+    user,
+    updateRegisterInfo,
+    registerUser,
+    registerLoading,
+  } = useAuth();
   const [viewPassword, setHandleViewPassword] = useState(false);
   return (
     <>
@@ -51,7 +56,7 @@ export const Register = () => {
                 }
               />
             </div>
-            <div className="grid grid-cols-1 col-span-4 gap-1 pb-4">
+            <div className="grid grid-cols-1 col-span-4 gap-1 pb-7">
               <label htmlFor="">Create Password</label>
               <div className="relative">
                 <input
@@ -76,8 +81,7 @@ export const Register = () => {
               <Button
                 onClick={registerUser}
                 type="primary"
-                loading={loading}
-                iconPosition={"end"}
+                loading={registerLoading}
               >
                 Sign Up
               </Button>

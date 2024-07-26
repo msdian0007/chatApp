@@ -45,7 +45,6 @@ export const useFetchChat = () => {
           }
         );
         if (response.data) {
-          console.log("first");
         }
       } catch (error) {
         handleError(error);

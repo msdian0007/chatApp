@@ -24,7 +24,6 @@ export const FriendRequests = () => {
     setIsNewFriendAdded(true);
     setIsOpen(false);
   };
-  console.log(recipientLoading)
   let content = () => {
     return (
       <>

@@ -10,6 +10,7 @@ import {
 } from "react";
 import { baseURL } from "../constants";
 import { handleError } from "../utils/handleError";
+import { playNotifications } from "../utils/NotificationsHelper";
 
 const ChatContext = createContext(null);
 
@@ -47,7 +48,15 @@ const ChatProvider = ({ children, user }) => {
   const sendTextMessage = useCallback(
     async (text, senderId, chatId, setTextMessage) => {
       try {
-        // setMessagesLoading(true);
+        if (!text) return;
+        let oldMessages = messages;
+        oldMessages = [
+          ...oldMessages,
+          { text, createdAt: new Date(), senderId },
+        ];
+        setMessages(oldMessages);
+        playNotifications("SEND");
+        setTextMessage("");
         const response = await axiosInstance.post("/messages", {
           chatId,
           senderId,
@@ -55,15 +64,14 @@ const ChatProvider = ({ children, user }) => {
         });
         if (response.data) {
           setNewMessage(response.data);
-          setMessages((prev) => [...prev, response.data]);
-          // setMessagesLoading(false);
-          setTextMessage("");
+          oldMessages.pop();
+          setMessages(() => [...oldMessages, response.data]);
         }
       } catch (error) {
         handleError(error);
       }
     },
-    []
+    [messages]
   );
   const updateCurrentChat = useCallback(
     (chat, senderId) => {
@@ -213,8 +221,10 @@ const ChatProvider = ({ children, user }) => {
     socket.on("sendNotification", (info) => {
       if (currentChat?.members.find((id) => id === info.senderId)) {
         setNotifications((prev) => [{ ...info, isRead: true }, ...prev]);
+        playNotifications("RECV");
       } else {
         setNotifications((prev) => [info, ...prev]);
+        playNotifications("UN");
       }
     });
     return () => {

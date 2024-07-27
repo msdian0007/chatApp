@@ -6,7 +6,6 @@ import {
   CloseCircleOutlined,
   SmileOutlined,
 } from "@ant-design/icons";
-import { Spin } from "antd";
 import { useAuth } from "../../context/authContext";
 import { friendRequestNotification } from "../../utils/FriendReqNotifHelper";
 
@@ -25,27 +24,29 @@ export const FriendRequestCard = ({ chatReqId, handleRespondChatRequest }) => {
             <div className="flex flex-col text-lg text-right">
               {chatRequest.status !== "accepted" &&
               chatRequest.sender !== user?._id ? (
-                <span className="flex justify-end gap-2">
-                  <CheckCircleOutlined
-                    style={{ color: "green" }}
-                    onClick={() =>
-                      handleRespondChatRequest(
-                        chatReqId,
-                        chatRequest?.receiver,
-                        "accept"
-                      )
-                    }
-                  />
-                  <CloseCircleOutlined
-                    style={{ color: "red" }}
-                    onClick={() =>
-                      handleRespondChatRequest(
-                        chatReqId,
-                        chatRequest?.receiver,
-                        "reject"
-                      )
-                    }
-                  />
+                <span className="flex justify-end gap-3">
+                  <div className="px-4 py-0 text-gray-500 bg-green-500 rounded-md">
+                    <CheckCircleOutlined
+                      onClick={() =>
+                        handleRespondChatRequest(
+                          chatReqId,
+                          chatRequest?.receiver,
+                          "accept"
+                        )
+                      }
+                    />
+                  </div>
+                  <div className="px-4 py-0 text-gray-200 rounded-md bg-rose-600">
+                    <CloseCircleOutlined
+                      onClick={() =>
+                        handleRespondChatRequest(
+                          chatReqId,
+                          chatRequest?.receiver,
+                          "reject"
+                        )
+                      }
+                    />
+                  </div>
                 </span>
               ) : (
                 <span className="text-right">

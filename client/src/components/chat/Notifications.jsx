@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useChat } from "../../context/chatContext";
-import { UnreadNotifications } from "../../utils/UnreadNotifications";
+import { UnreadNotifications } from "../../utils/NotificationsHelper";
 import { Avatar, Badge, Button, Popover } from "antd";
 import moment from "moment";
 import { useAuth } from "../../context/authContext";
@@ -26,7 +26,7 @@ export const Notifications = () => {
   let content = () => {
     return (
       <>
-        <div className="grid">
+        <div className="grid max-h-[26vh] overflow-y-auto">
           {!modifiedNotifications?.length ? (
             <div className="text-center text-rose-600">Empty</div>
           ) : (

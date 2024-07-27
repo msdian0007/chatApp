@@ -27,7 +27,7 @@ export const FriendRequests = () => {
   let content = () => {
     return (
       <>
-        <div className="grid">
+        <div className="grid max-h-[26vh] overflow-y-auto">
           {recipientLoading ? (
             <Spin />
           ) : (
@@ -45,7 +45,7 @@ export const FriendRequests = () => {
                       handleRespondChatRequest={handleRespondChatRequest}
                     />
                   );
-                })
+                }).reverse()
               )}
             </>
           )}

@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useFetchUser } from "../../hooks/useFetchUser";
 import { useChat } from "../../context/chatContext";
 import { UserChatListSkeleton } from "../skeleton";
-import { UserNotificationCount } from "../../utils/UnreadNotifications";
+import { UserNotificationCount } from "../../utils/NotificationsHelper";
 import { useFetchChat } from "../../hooks/useFetchChat";
 import moment from "moment";
 import { useHelper } from "../../hooks/useHelper";

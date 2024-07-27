@@ -21,7 +21,7 @@ export const Chat = () => {
   };
   return (
     <>
-      <div className="grid grid-cols-8 ">
+      <div className="grid grid-cols-8">
         <div
           className={`${
             isChatBoxOpen

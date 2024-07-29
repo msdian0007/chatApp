@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useFetchUser } from "../../hooks/useFetchUser";
 import { useChat } from "../../context/chatContext";
 import { UserChatListSkeleton } from "../skeleton";
@@ -6,6 +6,11 @@ import { UserNotificationCount } from "../../utils/NotificationsHelper";
 import { useFetchChat } from "../../hooks/useFetchChat";
 import moment from "moment";
 import { useHelper } from "../../hooks/useHelper";
+import {
+  getUnreadNotificationsCount,
+  isUserOnline,
+  showLatestMessage,
+} from "../../utils/FriendReqNotifHelper";
 
 export default function UserChat({ chat, user, index, setIsChatBoxOpen }) {
   const { onlineUsers, notifications, updateCurrentChat, messages } = useChat();
@@ -16,43 +21,27 @@ export default function UserChat({ chat, user, index, setIsChatBoxOpen }) {
     notifications,
     recipient?._id
   );
-
-  const isUserOnline = (id) => {
-    const isOnline = onlineUsers.some((u) => u.userId === id);
-    return (
-      isOnline && (
-        <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-white rounded-full"></div>
-      )
-    );
-  };
-  const getNameInitial = (name) => {
-    return name
-      .split(" ")
-      .map((n) => n.charAt(0).toUpperCase())
-      .join("");
-  };
-
-  const showLatestMessage = (m) => {
-    if (lastMessage && m?.senderId !== recipient?._id) {
-      return (
-        <div className="flex text-[12px]">
-          <div className="pr-1 font-bold text-orange-400">you:</div>
-          <div className="truncate">{lastMessage?.text}</div>
-        </div>
-      );
-    } else {
-      return <div className="text">{lastMessage?.text}</div>;
-    }
-  };
+  const [notificationCount, setNotificationCount] = useState(0);
+  // const isUserOnline = (id) => {
+  //   const isOnline = onlineUsers.some((u) => u.userId === id);
+  //   return (
+  //     isOnline && (
+  //       <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-white rounded-full"></div>
+  //     )
+  //   );
+  // };
 
   const handleCurrentChat = () => {
     updateCurrentChat(chat, recipient?._id);
     setIsChatBoxOpen(true);
+    setNotificationCount(0);
   };
 
   useEffect(() => {
     const recipientId = chat?.members.find((id) => id !== user?._id);
+    const res = chat?.unreadCounts?.find((uc) => uc.userId !== recipientId);
     recipientId && getRecipient(recipientId);
+    setNotificationCount(res?.count);
   }, [chat]);
 
   useEffect(() => {
@@ -72,26 +61,23 @@ export default function UserChat({ chat, user, index, setIsChatBoxOpen }) {
               <div className="content-center object-cover w-full h-full text-center rounded-full bg-slate-400">
                 {getDpName(recipient?.firstName + " " + recipient?.lastName)}
               </div>
-              {isUserOnline(recipient?._id)}
+              {isUserOnline(recipient?._id, onlineUsers)}
             </div>
             <div className="text-content">
               <div className="name">
                 {recipient?.firstName + " " + recipient?.lastName}
               </div>
-              {showLatestMessage(lastMessage)}
+              {showLatestMessage(lastMessage, recipient)}
             </div>
           </div>
           <div className="grid items-end text-right">
             <div className="date !text-[12px]">
               {moment(lastMessage?.updatedAt).calendar()}
             </div>
-            {unreadNotifications ? (
-              <div className="flex justify-end">
-                <span className="this-user-notifications">
-                  {unreadNotifications}
-                </span>
-              </div>
-            ) : null}
+            {getUnreadNotificationsCount(
+              notificationCount,
+              unreadNotifications
+            )}
           </div>
         </div>
       )}

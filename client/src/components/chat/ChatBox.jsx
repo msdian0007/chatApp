@@ -8,13 +8,13 @@ import { ArrowLeftOutlined, SendOutlined } from "@ant-design/icons";
 import { InputEmojiWrapper } from "./EmojiWrapper";
 
 export const ChatBox = ({ user, setIsChatBoxOpen }) => {
-  const { messages, messagesLoading, currentChat, sendTextMessage } = useChat();
+  const { messages, messagesLoading, currentChat, sendTextMessage, updateCurrentChat } = useChat();
   const { loading, recipient, getRecipient } = useFetchUser();
   const [textMessage, setTextMessage] = useState("");
   const messageScrollRef = useRef();
+  const recipientId = currentChat?.members.find((id) => id !== user?._id);
 
   useEffect(() => {
-    const recipientId = currentChat?.members.find((id) => id !== user?._id);
     recipientId && getRecipient(recipientId);
   }, [currentChat]);
 
@@ -25,6 +25,11 @@ export const ChatBox = ({ user, setIsChatBoxOpen }) => {
   const handleOnMessageType = useCallback((text) => {
     setTextMessage(text);
   }, []);
+
+  const handleCurrentChat = () => {
+    updateCurrentChat(null, null);
+    setIsChatBoxOpen(false);
+  };
 
   if (messagesLoading) return <ChatMessagesSkeleton />;
   if (!currentChat)
@@ -40,7 +45,7 @@ export const ChatBox = ({ user, setIsChatBoxOpen }) => {
         <div className="chat-header min-h-[6vh] !flex !justify-between">
           <div
             className="ml-6 text-xl cursor-pointer lg:text-lg"
-            onClick={() => setIsChatBoxOpen(false)}
+            onClick={handleCurrentChat}
           >
             <ArrowLeftOutlined />
           </div>
@@ -75,6 +80,7 @@ export const ChatBox = ({ user, setIsChatBoxOpen }) => {
               sendTextMessage(
                 textMessage,
                 user?._id,
+                recipientId,
                 currentChat._id,
                 setTextMessage
               )

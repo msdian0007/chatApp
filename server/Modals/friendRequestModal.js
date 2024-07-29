@@ -3,8 +3,8 @@ const Schema = mongoose.Schema;
 
 const friendRequestSchema = new Schema(
   {
-    sender: { type: Schema.Types.ObjectId, ref: "User", required: true },
-    receiver: { type: Schema.Types.ObjectId, ref: "User", required: true },
+    sender: { type: Schema.Types.ObjectId, ref: "users", required: true },
+    receiver: { type: Schema.Types.ObjectId, ref: "users", required: true },
     status: {
       type: String,
       enum: ["pending", "accepted", "rejected"],

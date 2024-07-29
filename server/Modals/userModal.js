@@ -8,8 +8,8 @@ const userSchema = new Schema(
     email: { type: String },
     phoneNumber: { type: Number, required: true, unique: true },
     password: { type: String, required: true },
-    friends: [{ type: Schema.Types.ObjectId, ref: "User" }],
-    friendRequests: [{ type: Schema.Types.ObjectId, ref: "FriendRequest" }],
+    friends: [{ type: Schema.Types.ObjectId, ref: "users" }],
+    friendRequests: [{ type: Schema.Types.ObjectId, ref: "friendrequest" }],
   },
   {
     timestamps: true,

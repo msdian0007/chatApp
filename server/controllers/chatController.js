@@ -13,6 +13,10 @@ export const createChat = async (req, res) => {
 
     const newChat = new chatModal({
       members: [firstId, secondId],
+      unreadCounts: [
+        { userId: firstId, count: 0 },
+        { userId: secondId, count: 0 },
+      ],
     });
     const response = await newChat.save();
     res.status(200).json(response);
@@ -86,6 +90,32 @@ export const sendChatRequest = async (req, res) => {
   try {
     const friendRequest = await sendFriendRequest(senderId, recipientId);
     res.status(200).json(true);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
+export const markMessagesAsRead = async (req, res) => {
+  const { chatId, userId } = req.body;
+  try {
+    const chat = await chatModal.findById(chatId);
+    chat?.unreadCounts?.forEach(c => {
+      if(c.userId.toString() === userId){
+        c.count = 0
+      }
+    })
+    await chat.save();
+    res.status(200).json(true);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
+export const getChatInfo = async (req, res) => {
+  const { chatId } = req.params;
+  try {
+    const chat = await chatModal.findOne({ _id: chatId }, { unreadCounts: 1 });
+    res.status(200).json(chat);
   } catch (error) {
     res.status(400).json({ message: error.message });
   }

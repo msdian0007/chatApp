@@ -7,10 +7,23 @@ export const useFetchChat = () => {
   const [chatReqLoading, setChatReqLoading] = useState(false);
   const [lastMessageLoading, setLastMessageLoading] = useState(true);
   const [lastMessage, setLastMessage] = useState();
+  const [chatInfo, setChatInfo] = useState(null);
   return {
     lastMessageLoading,
     lastMessage,
     chatReqLoading,
+    chatInfo,
+    getChatInfo: async (chatId) => {
+      try {
+        const response = await axiosInstance.get(`/chats/getChatInfo/${chatId}`);
+        if (response.data) {
+          setChatInfo(response.data);
+          // setLastMessageLoading(false);
+        }
+      } catch (error) {
+        handleError(error);
+      }
+    },
     getLatestMessage: async (chatId) => {
       try {
         const response = await axiosInstance.get(`/messages/latest/${chatId}`);

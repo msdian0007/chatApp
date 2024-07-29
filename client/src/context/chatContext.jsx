@@ -46,7 +46,7 @@ const ChatProvider = ({ children, user }) => {
   }, []);
 
   const sendTextMessage = useCallback(
-    async (text, senderId, chatId, setTextMessage) => {
+    async (text, senderId, recipientId, chatId, setTextMessage) => {
       try {
         if (!text) return;
         let oldMessages = messages;
@@ -57,7 +57,7 @@ const ChatProvider = ({ children, user }) => {
         setMessages(oldMessages);
         playNotifications("SEND");
         setTextMessage("");
-        const response = await axiosInstance.post("/messages", {
+        const response = await axiosInstance.post("/messages/sendMessage", {
           chatId,
           senderId,
           text,
@@ -172,8 +172,19 @@ const ChatProvider = ({ children, user }) => {
         handleError(error);
       }
     };
+    const markMessagesAsRead = async () => {
+      try {
+        await axiosInstance.post(`/chats/markMessagesAsRead`, {
+          chatId: currentChat?._id,
+          userId: user?._id,
+        });
+      } catch (error) {
+        handleError(error);
+      }
+    };
     if (!currentChat) return;
     getMessages();
+    markMessagesAsRead();
   }, [currentChat]);
 
   // SOCKET-IO INITIALIZATION

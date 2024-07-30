@@ -44,7 +44,7 @@ export const Navbar = () => {
   return (
     <>
       <div className=" bg-slate-700">
-        <div className="flex justify-between min-h-[8vh] lg:px-[56px] px-3 ">
+        <div className="flex justify-between min-h-[8vh]  px-3 ">
           <div className="content-center hidden cursor-pointer lg:block">
             <Link to={"/"}>ChatApp</Link>
           </div>
@@ -58,7 +58,7 @@ export const Navbar = () => {
             )}
             <div className="content-center italic scale-125">🍁</div>
           </div>
-          <div className="flex gap-2 my-auto lg:gap-6">
+          <div className="flex gap-2 my-auto lg:gap-4">
             {user && (
               <div className="flex gap-2 lg:gap-2">
                 <Notifications />
@@ -66,8 +66,11 @@ export const Navbar = () => {
               </div>
             )}
             <Dropdown menu={{ items }} trigger={["click"]}>
-              <a className="flex content-center pl-3" onClick={(e) => e.preventDefault()}>
-                <MenuOutlined className="text-xl"/>
+              <a
+                className="flex content-center pl-3"
+                onClick={(e) => e.preventDefault()}
+              >
+                <MenuOutlined className="text-xl" />
               </a>
             </Dropdown>
           </div>

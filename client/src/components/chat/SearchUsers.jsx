@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { LoadingOutlined, SearchOutlined } from "@ant-design/icons";
+import {
+  LoadingOutlined,
+  PoweroffOutlined,
+  SearchOutlined,
+} from "@ant-design/icons";
 import { useFetchUser } from "../../hooks/useFetchUser";
-import { UserListCard } from "./UserListCard";
+import { UserListCard } from "./modules/UserListCard";
 import { useFetchChat } from "../../hooks/useFetchChat";
 import { useAuth } from "../../context/authContext";
-import { message } from "antd";
+import { Button, message } from "antd";
 
 export const SearchUsers = ({ setIsSearching, isSearching }) => {
   // HOOKS
@@ -30,6 +34,7 @@ export const SearchUsers = ({ setIsSearching, isSearching }) => {
     await sendChatRequest(user?._id, id);
     setSearchedUsers([]);
     setPhoneNumber("");
+    setIsSearching(0);
   };
 
   // TO CLEAR SEARCHING SCREEN
@@ -39,23 +44,43 @@ export const SearchUsers = ({ setIsSearching, isSearching }) => {
   }, [isSearching]);
 
   return (
-    <div className="mt-2 text-center ">
+    <div className="py-2 text-center ">
       <div className="relative mx-2 ">
         <input
           type="number"
-          placeholder="search friends..."
-          className="z-30 w-full h-10 px-3 py-1 text-sm rounded-md lg:h-8 bg-black/45"
+          placeholder={`${
+            isSearching ? "Enter phone number..." : "search friends..."
+          }`}
+          className={`${
+            isSearching ? "placeholder-orange-400" : ""
+          } z-30 w-full h-10 px-3 py-1 text-sm rounded-full lg:h-10 bg-black/45`}
           value={phoneNumber}
           onChange={(e) => setPhoneNumber(e.target.value)}
           onClick={() => setIsSearching(1)}
         />
-        <div className="absolute content-center px-4 bg-orange-600 rounded-md hover:bg-orange-700 bottom-1 top-1 right-2">
+        {searchedUsersLoading ? (
+          <Button
+            className="absolute  border-0 !content-center rounded-full !px-7  !right-1 top-1 h-auto bottom-1"
+            icon={<PoweroffOutlined />}
+            loading
+          />
+        ) : (
+          <Button
+            className="absolute bg-orange-500 text-white border-0 !content-center rounded-full !px-7  !right-1 top-1 h-auto bottom-1"
+            icon={<SearchOutlined />}
+            onClick={handleSearch}
+          />
+        )}
+        {/* <div className="absolute content-center px-4 bg-orange-600 rounded-md hover:bg-orange-700 bottom-1 top-1 right-2">
           {searchedUsersLoading ? (
             <LoadingOutlined />
           ) : (
-            <SearchOutlined className="flex my-auto cursor-pointer" onClick={handleSearch} />
+            <SearchOutlined
+              className="flex my-auto cursor-pointer"
+              onClick={handleSearch}
+            />
           )}
-        </div>
+        </div> */}
         {searchedUsersLoading ? (
           <></>
         ) : (

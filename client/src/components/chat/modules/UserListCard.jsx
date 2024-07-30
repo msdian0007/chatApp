@@ -1,5 +1,5 @@
 import { Button } from "antd";
-import { useHelper } from "../../hooks/useHelper";
+import { useHelper } from "../../../hooks/useHelper";
 
 export const UserListCard = ({ u, handleChatRequest, chatReqLoading }) => {
   const { getDpName } = useHelper();

@@ -5,7 +5,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 
 import { ChatMessagesSkeleton } from "../skeleton";
 import { ArrowLeftOutlined, SendOutlined } from "@ant-design/icons";
-import { InputEmojiWrapper } from "./EmojiWrapper";
+import { InputEmojiWrapper } from "./modules/EmojiWrapper";
 import { useAuth } from "../../context/authContext";
 import chatAnimImg from "../../assets/images/Chat-amico.png";
 
@@ -28,7 +28,9 @@ export const ChatBox = ({ setIsChatBoxOpen }) => {
   }, [currentChat]);
 
   useEffect(() => {
-    messageScrollRef.current?.scrollIntoView({ behavior: "smooth" });
+    // messageScrollRef.current?.scrollIntoView({ behavior: "smooth" });
+    const chatBoxRef = messageScrollRef.current
+    if(chatBoxRef?.scrollHeight) return chatBoxRef.scrollTop = chatBoxRef?.scrollHeight
   }, [messages]);
 
   const handleOnMessageType = useCallback((text) => {
@@ -55,7 +57,7 @@ export const ChatBox = ({ setIsChatBoxOpen }) => {
       <div className="chat-box relative min-h-[calc(100vh-9vh)]">
         <div className="chat-header min-h-[6vh] !flex !justify-between">
           <div
-            className="ml-6 text-xl cursor-pointer lg:text-lg"
+            className="ml-3 text-xl cursor-pointer lg:text-lg"
             onClick={handleCurrentChat}
           >
             <ArrowLeftOutlined />
@@ -63,18 +65,20 @@ export const ChatBox = ({ setIsChatBoxOpen }) => {
           <strong>{recipient?.firstName}</strong>
           <span></span>
         </div>
-        <div className="px-2 pt-2 messages pb-[10vh]">
+        <div className="px-2 pt-2 messages pb-[10vh]" ref={messageScrollRef}>
           {messages &&
             messages.map((m, i) => (
               <div
-                ref={messageScrollRef}
+                
                 key={i}
                 className={`${
                   m.senderId === user?._id ? "message self " : "message "
                 } `}
               >
                 <div>{m.text}</div>
-                <div className="message-footer">
+                <div className={`${
+                  m.senderId === user?._id ? "message-footer self" : "message-footer "
+                } `}>
                   {moment(m.createdAt).calendar()}
                 </div>
               </div>
@@ -97,28 +101,6 @@ export const ChatBox = ({ setIsChatBoxOpen }) => {
               )
             }
           />
-          {/* <button
-            className="flex items-end content-center w-10 my-auto rounded-full h-9 bg-sky-600"
-            onClick={() =>
-              sendTextMessage(
-                textMessage,
-                user?._id,
-                currentChat._id,
-                setTextMessage
-              )
-            }
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              fill="currentColor"
-              className="bi bi-send"
-              viewBox="0 0 16 16"
-            >
-              <path d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576zm6.787-8.201L1.591 6.602l4.339 2.76z" />
-            </svg>
-          </button> */}
         </div>
       </div>
     </>

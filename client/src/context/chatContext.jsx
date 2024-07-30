@@ -69,12 +69,16 @@ const ChatProvider = ({ children, user }) => {
           setNewMessage(response.data);
           oldMessages.pop();
           setMessages(() => [...oldMessages, response.data]);
+
+          // SORT CHAT-LIST
+          const result = getLatestChatOnTopByChatId(chatList, chatId);
+          if (result) setChatList(result);
         }
       } catch (error) {
         handleError(error);
       }
     },
-    [messages]
+    [messages, chatList]
   );
   const updateCurrentChat = useCallback(
     (chat, senderId) => {
@@ -235,8 +239,6 @@ const ChatProvider = ({ children, user }) => {
     socket.on("getNewMessage", (message) => {
       if (currentChat?._id === message.chatId) {
         setMessages((prev) => [...prev, message]);
-        // console.log(result)
-        // setUserChat(result)
       }
       const result = getLatestChatOnTopByChatId(chatList, message.chatId);
       if (result) setChatList(result);

@@ -53,7 +53,7 @@ export const getUnreadNotificationsCount = (nc, unc) => {
     <div className="flex justify-end">
       <span className="this-user-notifications">{dbCount}</span>
     </div>
-  ) : null;
+  ) : <></>;
 };
 
 export const showLatestMessage = (lastMessage, recipient) => {

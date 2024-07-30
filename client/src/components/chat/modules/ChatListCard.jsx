@@ -65,8 +65,8 @@ export default function ChatListCard({ chat, setIsChatBoxOpen }) {
               {showLatestMessage(lastMessage, recipient)}
             </div>
           </div>
-          <div className="grid items-end text-right">
-            <div className="date !text-[12px]">
+          <div className="grid items-end gap-1 text-right">
+            <div className="date !text-[10px]">
               {moment(lastMessage?.updatedAt).calendar()}
             </div>
             {getUnreadNotificationsCount(

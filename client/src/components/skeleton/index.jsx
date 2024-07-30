@@ -23,24 +23,36 @@ export const UserChatListSkeleton = () => {
 
 export const PotentialChatsSkeleton = () => (
   <div className="flex flex-col items-center content-center w-6 gap-2 pl-6 ">
-    <Skeleton.Avatar active size={"large"}/>
+    <Skeleton.Avatar active size={"large"} />
     <Skeleton.Button active size="default" style={{ height: "6px" }} />
   </div>
 );
 
 export const ChatMessagesSkeleton = () => (
-  <div className="chat-box content-center !bg-neutral-700 min-h-[calc(100vh-8vh)]">
+  <div className="chat-box content-center !bg-neutral-900 min-h-[calc(100vh-8vh)]">
     <div className="px-1 pb-4 messages lg:px-4">
       <Skeleton.Input className="message self !p-0 !bg-transparent" active />
       <Skeleton.Input className="message !p-0 !bg-transparent" active />
       <Skeleton.Input className="message !p-0 !bg-transparent" active />
       <Skeleton.Input className="message !p-0 !bg-transparent" active />
+      <Skeleton.Input className="message self !p-0 !bg-transparent" active />
+      <Skeleton.Input className="message self !p-0 !bg-transparent" active />
+      <Skeleton.Input className="message self !p-0 !bg-transparent" active />
+      <Skeleton.Input className="message self !p-0 !bg-transparent" active />
+      <Skeleton.Input className="message !p-0 !bg-transparent" active />
+      <Skeleton.Input className="message !p-0 !bg-transparent" active />
+      <Skeleton.Input className="message !p-0 !bg-transparent" active />
+      <Skeleton.Input className="message self !p-0 !bg-transparent" active />
+      <Skeleton.Input className="message !p-0 !bg-transparent" active />
+      <Skeleton.Input className="message !p-0 !bg-transparent" active />
       <Skeleton.Input className="message !p-0 !bg-transparent" active />
       <Skeleton.Input className="message self !p-0 !bg-transparent" active />
       <Skeleton.Input className="message self !p-0 !bg-transparent" active />
       <Skeleton.Input className="message self !p-0 !bg-transparent" active />
       <Skeleton.Input className="message self !p-0 !bg-transparent" active />
       <Skeleton.Input className="message !p-0 !bg-transparent" active />
+      <Skeleton.Input className="message !p-0 !bg-transparent" active />
+      <Skeleton.Input className="message self !p-0 !bg-transparent" active />
     </div>
   </div>
 );

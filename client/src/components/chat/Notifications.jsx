@@ -81,9 +81,8 @@ export const Notifications = () => {
           count={unreadNotifications?.length}
         >
           <Avatar
-            className="scale-75 lg:scale-100"
+            className=""
             shape="circle"
-            size="default"
             icon={<BellOutlined />}
           />
         </Badge>

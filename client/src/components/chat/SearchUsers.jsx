@@ -39,8 +39,8 @@ export const SearchUsers = ({ setIsSearching, isSearching }) => {
   }, [isSearching]);
 
   return (
-    <div className="my-2 text-center ">
-      <div className="relative mx-2 max-w-[480px]">
+    <div className="mt-2 text-center ">
+      <div className="relative mx-2 ">
         <input
           type="number"
           placeholder="search friends..."

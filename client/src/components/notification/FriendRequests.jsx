@@ -11,7 +11,7 @@ export const FriendRequests = () => {
   const { user } = useAuth();
   const { setIsNewFriendAdded } = useChat();
   const { getRecipient, recipient, recipientLoading } = useFetchUser();
-  const { respondChatRequest } = useFetchChatRequest();
+  const { respondChatRequest, loadingChatRespond } = useFetchChatRequest();
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
@@ -43,6 +43,7 @@ export const FriendRequests = () => {
                       key={i}
                       chatReqId={id}
                       handleRespondChatRequest={handleRespondChatRequest}
+                      loadingChatRespond={loadingChatRespond}
                     />
                   );
                 }).reverse()
@@ -69,9 +70,8 @@ export const FriendRequests = () => {
         //   count={unreadNotifications?.length}
       >
         <Avatar
-          className="scale-75 lg:scale-100"
+          className=""
           shape="circle"
-          size="default"
           icon={<UsergroupAddOutlined />}
         />
       </Badge>

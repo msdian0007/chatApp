@@ -8,8 +8,13 @@ import {
 } from "@ant-design/icons";
 import { useAuth } from "../../context/authContext";
 import { friendRequestNotification } from "../../utils/FriendReqNotifHelper";
+import { Spin } from "antd";
 
-export const FriendRequestCard = ({ chatReqId, handleRespondChatRequest }) => {
+export const FriendRequestCard = ({
+  chatReqId,
+  handleRespondChatRequest,
+  loadingChatRespond,
+}) => {
   const { chatRequest, getChatRequestById } = useFetchChatRequest();
   const { user } = useAuth();
   useEffect(() => {
@@ -24,30 +29,38 @@ export const FriendRequestCard = ({ chatReqId, handleRespondChatRequest }) => {
             <div className="flex flex-col text-lg text-right">
               {chatRequest.status !== "accepted" &&
               chatRequest.sender !== user?._id ? (
-                <span className="flex justify-end gap-3">
-                  <div className="px-4 py-0 text-gray-500 bg-green-500 rounded-md">
-                    <CheckCircleOutlined
-                      onClick={() =>
-                        handleRespondChatRequest(
-                          chatReqId,
-                          chatRequest?.receiver,
-                          "accept"
-                        )
-                      }
-                    />
-                  </div>
-                  <div className="px-4 py-0 text-gray-200 rounded-md bg-rose-600">
-                    <CloseCircleOutlined
-                      onClick={() =>
-                        handleRespondChatRequest(
-                          chatReqId,
-                          chatRequest?.receiver,
-                          "reject"
-                        )
-                      }
-                    />
-                  </div>
-                </span>
+                <>
+                  {loadingChatRespond ? (
+                    <Spin />
+                  ) : (
+                    <div className="flex justify-end gap-3">
+                      <div
+                        className="px-4 py-0 text-gray-500 bg-green-500 rounded-md"
+                        onClick={() =>
+                          handleRespondChatRequest(
+                            chatReqId,
+                            chatRequest?.receiver,
+                            "accept"
+                          )
+                        }
+                      >
+                        <CheckCircleOutlined />
+                      </div>
+                      <div
+                        className="px-4 py-0 text-gray-200 rounded-md bg-rose-600"
+                        onClick={() =>
+                          handleRespondChatRequest(
+                            chatReqId,
+                            chatRequest?.receiver,
+                            "reject"
+                          )
+                        }
+                      >
+                        <CloseCircleOutlined />
+                      </div>
+                    </div>
+                  )}
+                </>
               ) : (
                 <span className="text-right">
                   <SmileOutlined />

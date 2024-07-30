@@ -1,52 +1,45 @@
-import { Skeleton } from "antd";
 import { useChat } from "../../context/chatContext";
 import { PotentialChatsSkeleton } from "../skeleton";
+import _ from "lodash";
+import React from "react";
+import { useAuth } from "../../context/authContext";
+import { useHelper } from "../../hooks/useHelper";
+import { isUserOnline } from "../../utils/FriendReqNotifHelper";
 
-export const PotentialChats = ({ user }) => {
+const PotentialChats = React.memo(() => {
   const { potentialChats, createChat, onlineUsers, potentialChatsLoading } =
     useChat();
-  const isUserOnline = (id) => {
-    const isOnline = onlineUsers.some((u) => u.userId === id);
-    return (
-      isOnline && (
-        <div className="absolute bottom-0 right-0 w-2 h-2 bg-green-500 border-[1px] border-white rounded-full"></div>
-      )
-    );
-  };
-  const getNameInitial = (name) => {
-    return name
-      .split(" ")
-      .map((n) => n.charAt(0).toUpperCase())
-      .join("");
-  };
+  const { user } = useAuth();
+  const { getDpName } = useHelper();
   return (
     <>
-      <div className="flex justify-around gap-2 overflow-x-scroll overflow-y-hidden lg:justify-normal md:justify-normal scrollbar">
-        {potentialChatsLoading ? (
-          <PotentialChatsSkeleton />
-        ) : (
-          potentialChats &&
-          potentialChats.map((pc, i) => {
-            return (
-              <div
-                key={i}
-                className="flex flex-col items-center p-2 mb-2 border-b-2 rounded-lg cursor-pointer w-14"
-                onClick={() => createChat(user?._id, pc?._id)}
-              >
-                <div className="relative w-7 h-7">
-                  <div className="w-full h-full rounded-full object-cover text-[12px] bg-violet-600 text-center content-center">
-                    {getNameInitial(pc?.firstName + " " + pc?.lastName)}
+      <div className="flex justify-around gap-4 overflow-x-scroll overflow-y-hidden shadow-lg md:gap-14 scrollbar ">
+        {potentialChatsLoading
+          ? [1, 2, 3, 4, 5].map((_, i) => <PotentialChatsSkeleton key={i} />)
+          : potentialChats &&
+            potentialChats.map((pc, i) => {
+              return (
+                <div
+                  key={i}
+                  className="flex flex-col items-center p-2 rounded-lg cursor-pointer w-14"
+                  onClick={() => createChat(user?._id, pc?._id)}
+                >
+                  <div className="relative w-9 h-9">
+                    <div className="w-full h-full rounded-full object-cover text-[12px] bg-violet-600 text-center content-center">
+                      {getDpName(pc?.firstName, pc?.lastName)}
+                    </div>
+                    {isUserOnline(pc._id, onlineUsers)}
                   </div>
-                  {isUserOnline(pc._id)}
+                  <div className="mt-1 text-[10px] text-center">
+                    {pc?.firstName}
+                  </div>
                 </div>
-                <div className="mt-1 text-[9px] text-center">
-                  {pc?.firstName}
-                </div>
-              </div>
-            );
-          })
-        )}
+              );
+            })}
       </div>
     </>
   );
-};
+});
+
+PotentialChats.displayName = "PotentialChats";
+export default PotentialChats;

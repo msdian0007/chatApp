@@ -6,12 +6,21 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { ChatMessagesSkeleton } from "../skeleton";
 import { ArrowLeftOutlined, SendOutlined } from "@ant-design/icons";
 import { InputEmojiWrapper } from "./EmojiWrapper";
+import { useAuth } from "../../context/authContext";
+import chatAnimImg from "../../assets/images/Chat-amico.png";
 
-export const ChatBox = ({ user, setIsChatBoxOpen }) => {
-  const { messages, messagesLoading, currentChat, sendTextMessage, updateCurrentChat } = useChat();
+export const ChatBox = ({ setIsChatBoxOpen }) => {
+  const {
+    messages,
+    messagesLoading,
+    currentChat,
+    sendTextMessage,
+    updateCurrentChat,
+  } = useChat();
   const { loading, recipient, getRecipient } = useFetchUser();
   const [textMessage, setTextMessage] = useState("");
   const messageScrollRef = useRef();
+  const { user } = useAuth();
   const recipientId = currentChat?.members.find((id) => id !== user?._id);
 
   useEffect(() => {
@@ -35,13 +44,15 @@ export const ChatBox = ({ user, setIsChatBoxOpen }) => {
   if (!currentChat)
     return (
       <div className="chat-box content-center min-h-[calc(100vh-12vh)]">
-        <div className="flex justify-center ">...No conversation selected</div>
+        <div className="flex justify-center ">
+          <img className="max-w-md" src={chatAnimImg} />
+        </div>
       </div>
     );
 
   return (
     <>
-      <div className="chat-box relative min-h-[calc(100vh-8vh)]">
+      <div className="chat-box relative min-h-[calc(100vh-9vh)]">
         <div className="chat-header min-h-[6vh] !flex !justify-between">
           <div
             className="ml-6 text-xl cursor-pointer lg:text-lg"
@@ -74,8 +85,8 @@ export const ChatBox = ({ user, setIsChatBoxOpen }) => {
             text={textMessage}
             handleChange={handleOnMessageType}
           />
-          <SendOutlined 
-          className="content-center px-4 py-3 text-xl bg-blue-600 rounded-full"
+          <SendOutlined
+            className="content-center px-4 py-3 text-xl bg-blue-600 rounded-full"
             onClick={() =>
               sendTextMessage(
                 textMessage,

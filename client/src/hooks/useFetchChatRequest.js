@@ -4,8 +4,10 @@ import { handleError } from "../utils/handleError";
 
 export const useFetchChatRequest = () => {
   const [chatRequest, setChatRequest] = useState();
+  const [loadingChatRespond, setLoadingChatRespond] = useState(false);
   return {
     chatRequest,
+    loadingChatRespond,
     sendChatRequest: async (senderId, recipientId) => {
       try {
         const response = await axiosInstance.post(`/chats/sendChatRequest`, {
@@ -17,7 +19,7 @@ export const useFetchChatRequest = () => {
           return true;
         }
       } catch (error) {
-        console.log(error)
+        console.log(error);
         handleError(error);
       }
     },
@@ -36,6 +38,7 @@ export const useFetchChatRequest = () => {
     },
     respondChatRequest: async (chatReqId, recipientId, respond) => {
       try {
+        setLoadingChatRespond(true);
         const response = await axiosInstance.post(
           `/chats/chatRequestResponse`,
           {
@@ -45,9 +48,10 @@ export const useFetchChatRequest = () => {
           }
         );
         if (response.data) {
-          // console.log(response.data);
+          setLoadingChatRespond(false);
         }
       } catch (error) {
+        setLoadingChatRespond(false);
         console.log(error);
       }
     },

@@ -60,14 +60,14 @@ export const Navbar = () => {
           </div>
           <div className="flex gap-2 my-auto lg:gap-6">
             {user && (
-              <div className="lg:flex lg:gap-2">
-                <FriendRequests />
+              <div className="flex gap-2 lg:gap-2">
                 <Notifications />
+                <FriendRequests />
               </div>
             )}
             <Dropdown menu={{ items }} trigger={["click"]}>
-              <a className="content-center" onClick={(e) => e.preventDefault()}>
-                <MenuOutlined />
+              <a className="flex content-center pl-3" onClick={(e) => e.preventDefault()}>
+                <MenuOutlined className="text-xl"/>
               </a>
             </Dropdown>
           </div>

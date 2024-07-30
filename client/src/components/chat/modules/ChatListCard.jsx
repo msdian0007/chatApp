@@ -1,35 +1,30 @@
 import { useEffect, useState } from "react";
-import { useFetchUser } from "../../hooks/useFetchUser";
-import { useChat } from "../../context/chatContext";
-import { UserChatListSkeleton } from "../skeleton";
-import { UserNotificationCount } from "../../utils/NotificationsHelper";
-import { useFetchChat } from "../../hooks/useFetchChat";
-import moment from "moment";
-import { useHelper } from "../../hooks/useHelper";
+import { useChat } from "../../../context/chatContext";
+import { useFetchUser } from "../../../hooks/useFetchUser";
+import { useFetchChat } from "../../../hooks/useFetchChat";
+import { useHelper } from "../../../hooks/useHelper";
+import { UserNotificationCount } from "../../../utils/NotificationsHelper";
+import { UserChatListSkeleton } from "../../skeleton";
 import {
   getUnreadNotificationsCount,
   isUserOnline,
   showLatestMessage,
-} from "../../utils/FriendReqNotifHelper";
+} from "../../../utils/FriendReqNotifHelper";
+import moment from "moment";
+import { useAuth } from "../../../context/authContext";
 
-export default function UserChat({ chat, user, index, setIsChatBoxOpen }) {
+export default function ChatListCard({ chat, setIsChatBoxOpen }) {
   const { onlineUsers, notifications, updateCurrentChat, messages } = useChat();
   const { getRecipient, recipient, recipientLoading } = useFetchUser();
   const { getLatestMessage, lastMessage } = useFetchChat();
   const { getDpName } = useHelper();
+  const { user } = useAuth();
+
   const unreadNotifications = UserNotificationCount(
     notifications,
     recipient?._id
   );
   const [notificationCount, setNotificationCount] = useState(0);
-  // const isUserOnline = (id) => {
-  //   const isOnline = onlineUsers.some((u) => u.userId === id);
-  //   return (
-  //     isOnline && (
-  //       <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-white rounded-full"></div>
-  //     )
-  //   );
-  // };
 
   const handleCurrentChat = () => {
     updateCurrentChat(chat, recipient?._id);
@@ -49,7 +44,7 @@ export default function UserChat({ chat, user, index, setIsChatBoxOpen }) {
   }, [notifications, messages]);
   return (
     <>
-      {recipientLoading ? (
+      {!recipient || recipientLoading ? (
         <UserChatListSkeleton />
       ) : (
         <div

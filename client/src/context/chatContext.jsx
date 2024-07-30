@@ -11,13 +11,16 @@ import {
 import { baseURL } from "../constants";
 import { handleError } from "../utils/handleError";
 import { playNotifications } from "../utils/NotificationsHelper";
+import { useHelper } from "../hooks/useHelper";
 
 const ChatContext = createContext(null);
 
 const ChatProvider = ({ children, user }) => {
+  const { getLatestChatOnTopByChatId, getLatestChatOnTop } = useHelper();
   const [chatLoading, setChatLoading] = useState(false);
   const [userChat, setUserChat] = useState([]);
-  const [potentialChatsLoading, setPotentialChatsLoading] = useState([]);
+  const [chatList, setChatList] = useState([]);
+  const [potentialChatsLoading, setPotentialChatsLoading] = useState(false);
   const [potentialChats, setPotentialChats] = useState([]);
   const [allUsers, setAllUsers] = useState([]);
   const [currentChat, setCurrentChat] = useState(null);
@@ -116,7 +119,8 @@ const ChatProvider = ({ children, user }) => {
         setChatLoading(true);
         const response = await axiosInstance.get(`/chats/${user?._id}`);
         if (response.data) {
-          setUserChat(response.data);
+          const newUserChats = getLatestChatOnTop(response.data);
+          setUserChat(newUserChats);
           setChatLoading(false);
         }
       } catch (error) {
@@ -125,6 +129,10 @@ const ChatProvider = ({ children, user }) => {
     };
     getUserChat();
   }, [user]);
+
+  useEffect(()=>{
+    setChatList(userChat)
+  },[userChat])
 
   useEffect(() => {
     if (!user) return;
@@ -227,7 +235,11 @@ const ChatProvider = ({ children, user }) => {
     socket.on("getNewMessage", (message) => {
       if (currentChat?._id === message.chatId) {
         setMessages((prev) => [...prev, message]);
+        // console.log(result)
+        // setUserChat(result)
       }
+      const result = getLatestChatOnTopByChatId(chatList, message.chatId);
+      if (result) setChatList(result);
     });
     socket.on("sendNotification", (info) => {
       if (currentChat?.members.find((id) => id === info.senderId)) {
@@ -242,7 +254,7 @@ const ChatProvider = ({ children, user }) => {
       socket.off("getNewMessage");
       socket.off("sendNotification");
     };
-  }, [socket, currentChat]);
+  }, [socket, currentChat, chatList]);
 
   // MANAGE NOTIFICATIONS
 
@@ -251,6 +263,7 @@ const ChatProvider = ({ children, user }) => {
       <ChatContext.Provider
         value={{
           userChat,
+          chatList,
           chatLoading,
           potentialChats,
           potentialChatsLoading,

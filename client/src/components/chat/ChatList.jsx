@@ -5,7 +5,7 @@ export default function ChatList({ setIsChatBoxOpen }) {
   const { chatList, chatLoading } = useChat();
   return (
     <>
-      <div className="max-h-[calc(100vh-29vh)] overflow-y-auto w-full pt-2">
+      <div className="max-h-[calc(100vh-29vh)] overflow-y-auto w-full   ">
         {chatList.map((c, i) => {
           return (
             <ChatListCard

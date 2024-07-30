@@ -44,7 +44,7 @@ export const SearchUsers = ({ setIsSearching, isSearching }) => {
   }, [isSearching]);
 
   return (
-    <div className="py-2 text-center ">
+    <div className="py-3 text-center ">
       <div className="relative mx-2 ">
         <input
           type="number"
@@ -53,7 +53,7 @@ export const SearchUsers = ({ setIsSearching, isSearching }) => {
           }`}
           className={`${
             isSearching ? "placeholder-orange-400" : ""
-          } z-30 w-full h-10 px-3 py-1 text-sm rounded-full lg:h-10 bg-black/45`}
+          } z-30 w-full h-12 px-3 py-1 text-sm rounded-full lg:h-10 bg-black/45`}
           value={phoneNumber}
           onChange={(e) => setPhoneNumber(e.target.value)}
           onClick={() => setIsSearching(1)}

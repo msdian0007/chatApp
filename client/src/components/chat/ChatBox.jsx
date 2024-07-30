@@ -29,8 +29,10 @@ export const ChatBox = ({ setIsChatBoxOpen }) => {
 
   useEffect(() => {
     // messageScrollRef.current?.scrollIntoView({ behavior: "smooth" });
-    const chatBoxRef = messageScrollRef.current
-    if(chatBoxRef?.scrollHeight) return chatBoxRef.scrollTop = chatBoxRef?.scrollHeight
+    const chatBoxRef = messageScrollRef.current;
+    if (chatBoxRef?.scrollHeight) {
+      chatBoxRef.scrollTop = chatBoxRef?.scrollHeight;
+    }
   }, [messages]);
 
   const handleOnMessageType = useCallback((text) => {
@@ -69,16 +71,19 @@ export const ChatBox = ({ setIsChatBoxOpen }) => {
           {messages &&
             messages.map((m, i) => (
               <div
-                
                 key={i}
                 className={`${
                   m.senderId === user?._id ? "message self " : "message "
                 } `}
               >
                 <div>{m.text}</div>
-                <div className={`${
-                  m.senderId === user?._id ? "message-footer self" : "message-footer "
-                } `}>
+                <div
+                  className={`${
+                    m.senderId === user?._id
+                      ? "message-footer self"
+                      : "message-footer "
+                  } `}
+                >
                   {moment(m.createdAt).calendar()}
                 </div>
               </div>

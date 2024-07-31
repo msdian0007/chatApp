@@ -4,7 +4,7 @@ import { handleError } from "../utils/handleError";
 
 export const useFetchChatRequest = () => {
   const [chatRequest, setChatRequest] = useState();
-  const [loadingChatRespond, setLoadingChatRespond] = useState(false);
+  const [loadingChatRespond, setLoadingChatRespond] = useState(null);
   return {
     chatRequest,
     loadingChatRespond,
@@ -38,7 +38,7 @@ export const useFetchChatRequest = () => {
     },
     respondChatRequest: async (chatReqId, recipientId, respond) => {
       try {
-        setLoadingChatRespond(true);
+        setLoadingChatRespond(chatReqId);
         const response = await axiosInstance.post(
           `/chats/chatRequestResponse`,
           {
@@ -48,10 +48,10 @@ export const useFetchChatRequest = () => {
           }
         );
         if (response.data) {
-          setLoadingChatRespond(false);
+          setLoadingChatRespond(null);
         }
       } catch (error) {
-        setLoadingChatRespond(false);
+        setLoadingChatRespond(null);
         console.log(error);
       }
     },

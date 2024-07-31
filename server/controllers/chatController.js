@@ -6,11 +6,14 @@ import userModal from "../Modals/userModal.js";
 export const createChat = async (req, res) => {
   try {
     const { firstId, secondId } = req.body;
+
+    // CHECK IF CHAT ALREADY CREATED
     const chat = await chatModal.findOne({
       members: { $all: [firstId, secondId] },
     });
     if (chat) return res.status(200).json(chat);
 
+    // CREATE NEW CHAT
     const newChat = new chatModal({
       members: [firstId, secondId],
       unreadCounts: [
@@ -19,6 +22,7 @@ export const createChat = async (req, res) => {
       ],
     });
     const response = await newChat.save();
+    
     res.status(200).json(response);
   } catch (error) {
     console.log(error);
@@ -54,6 +58,16 @@ export const findChat = async (req, res) => {
 
 const sendFriendRequest = async (senderId, receiverId) => {
   try {
+    // Check if the user already your friend
+    const user = await userModal.findOne(
+      {
+        _id: senderId,
+        friends: { $in: receiverId },
+      },
+      { _id: 1 }
+    );
+    if (user) throw new Error("You are already friendzz");
+
     // Check if the request already exists
     const existingRequest = await friendRequestModal.findOne({
       sender: senderId,
@@ -99,11 +113,11 @@ export const markMessagesAsRead = async (req, res) => {
   const { chatId, userId } = req.body;
   try {
     const chat = await chatModal.findById(chatId);
-    chat?.unreadCounts?.forEach(c => {
-      if(c.userId.toString() === userId){
-        c.count = 0
+    chat?.unreadCounts?.forEach((c) => {
+      if (c.userId.toString() === userId) {
+        c.count = 0;
       }
-    })
+    });
     await chat.save();
     res.status(200).json(true);
   } catch (error) {
@@ -233,6 +247,23 @@ export const chatRequestResponse = async (req, res) => {
       respond
     );
     res.status(200).json(friendRequest);
+  } catch (error) {
+    res.status(400).json(error);
+  }
+};
+
+export const testingApi = async (req, res) => {
+  const { senderId, recipientId } = req.body;
+  try {
+    const user = await userModal.findOne(
+      {
+        _id: senderId,
+        friends: { $in: recipientId },
+      },
+      { _id: 1 }
+    );
+    if (user) return res.status(200).json(true);
+    res.status(200).json(false);
   } catch (error) {
     res.status(400).json(error);
   }

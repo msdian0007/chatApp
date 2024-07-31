@@ -37,16 +37,18 @@ export const FriendRequests = () => {
                   No Chat Requests
                 </div>
               ) : (
-                recipient?.friendRequests?.map((id, i) => {
-                  return (
-                    <FriendRequestCard
-                      key={i}
-                      chatReqId={id}
-                      handleRespondChatRequest={handleRespondChatRequest}
-                      loadingChatRespond={loadingChatRespond}
-                    />
-                  );
-                }).reverse()
+                recipient?.friendRequests
+                  ?.map((id, i) => {
+                    return (
+                      <FriendRequestCard
+                        key={id}
+                        chatReqId={id}
+                        handleRespondChatRequest={handleRespondChatRequest}
+                        loadingChatRespond={loadingChatRespond}
+                      />
+                    );
+                  })
+                  .reverse()
               )}
             </>
           )}
@@ -69,11 +71,7 @@ export const FriendRequests = () => {
         size="small"
         //   count={unreadNotifications?.length}
       >
-        <Avatar
-          className=""
-          shape="circle"
-          icon={<UsergroupAddOutlined />}
-        />
+        <Avatar className="" shape="circle" icon={<UsergroupAddOutlined />} />
       </Badge>
     </Popover>
   );

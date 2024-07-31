@@ -8,6 +8,7 @@ import {
   getChatRequest,
   markMessagesAsRead,
   sendChatRequest,
+  testingApi,
 } from "../controllers/chatController.js";
 const router = express.Router();
 
@@ -19,5 +20,6 @@ router.post("/markMessagesAsRead", markMessagesAsRead);
 router.get("/:firstId/:secondId", findChat);
 router.get("/:userId", findChats);
 router.post("/", createChat);
+router.post("/testing", testingApi);
 
 export default router;

@@ -24,13 +24,13 @@ export const FriendRequestCard = ({
     <>
       {chatRequest ? (
         <div>
-          <div className="border-slate-300 cursor-pointer border-b-[1px] p-1 flex justify-between">
+          <div className="border-slate-300 cursor-pointer border-b-[1px] py-1 flex justify-between">
             {friendRequestNotification(chatRequest, user?._id)}
             <div className="flex flex-col text-lg text-right">
               {chatRequest.status !== "accepted" &&
               chatRequest.sender !== user?._id ? (
                 <>
-                  {loadingChatRespond ? (
+                  {loadingChatRespond === chatReqId ? (
                     <Spin />
                   ) : (
                     <div className="flex justify-end gap-3">

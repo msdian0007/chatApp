@@ -65,7 +65,7 @@ export const showLatestMessage = (lastMessage, recipient) => {
       </div>
     );
   } else {
-    return <div className="text">{lastMessage?.text}</div>;
+    return <div className="truncate text">{lastMessage?.text}</div>;
   }
 };
 

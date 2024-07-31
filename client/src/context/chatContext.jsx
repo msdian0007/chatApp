@@ -16,8 +16,12 @@ import { useHelper } from "../hooks/useHelper";
 const ChatContext = createContext(null);
 
 const ChatProvider = ({ children, user }) => {
+  // CUSTOMIZED HOOKS
   const { getLatestChatOnTopByChatId, getLatestChatOnTop } = useHelper();
+
+  // STATES
   const [chatLoading, setChatLoading] = useState(false);
+  const [selectedChat, SetSelectedChat] = useState(null);
   const [userChat, setUserChat] = useState([]);
   const [chatList, setChatList] = useState([]);
   const [potentialChatsLoading, setPotentialChatsLoading] = useState(false);
@@ -32,18 +36,20 @@ const ChatProvider = ({ children, user }) => {
   const [notifications, setNotifications] = useState([]);
   const [isNewFriendAdded, setIsNewFriendAdded] = useState(false);
 
+  // CREATE NEW CHAT
   const createChat = useCallback(async (firstId, secondId) => {
     try {
-      setChatLoading(true);
+      SetSelectedChat(secondId);
       const response = await axiosInstance.post("/chats", {
         firstId,
         secondId,
       });
       if (response.data) {
         setUserChat((prev) => [response.data, ...prev]);
-        setChatLoading(false);
+        SetSelectedChat(null);
       }
     } catch (error) {
+      SetSelectedChat(null);
       handleError(error);
     }
   }, []);
@@ -134,9 +140,9 @@ const ChatProvider = ({ children, user }) => {
     getUserChat();
   }, [user]);
 
-  useEffect(()=>{
-    setChatList(userChat)
-  },[userChat])
+  useEffect(() => {
+    setChatList(userChat);
+  }, [userChat]);
 
   useEffect(() => {
     if (!user) return;
@@ -265,6 +271,7 @@ const ChatProvider = ({ children, user }) => {
       <ChatContext.Provider
         value={{
           userChat,
+          selectedChat,
           chatList,
           chatLoading,
           potentialChats,

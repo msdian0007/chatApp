@@ -8,6 +8,7 @@ import { ArrowLeftOutlined, SendOutlined } from "@ant-design/icons";
 import { InputEmojiWrapper } from "./modules/EmojiWrapper";
 import { useAuth } from "../../context/authContext";
 import chatAnimImg from "../../assets/images/Chat-amico.png";
+import { ChatAndMessagingHelper } from "../../utils/ChatAndMessagingHelper";
 
 export const ChatBox = ({ setIsChatBoxOpen }) => {
   const {
@@ -21,6 +22,8 @@ export const ChatBox = ({ setIsChatBoxOpen }) => {
   const [textMessage, setTextMessage] = useState("");
   const messageScrollRef = useRef();
   const { user } = useAuth();
+  const { sendAndReceivedMessages } = ChatAndMessagingHelper();
+
   const recipientId = currentChat?.members.find((id) => id !== user?._id);
 
   useEffect(() => {
@@ -56,7 +59,7 @@ export const ChatBox = ({ setIsChatBoxOpen }) => {
 
   return (
     <>
-      <div className="chat-box relative min-h-[calc(100vh-9vh)]">
+      <div className="relative chat-box min-h-[calc(100vh-9vh)] rounded-md">
         <div className="chat-header min-h-[6vh] !flex !justify-between">
           <div
             className="ml-3 text-xl cursor-pointer lg:text-lg"
@@ -67,45 +70,30 @@ export const ChatBox = ({ setIsChatBoxOpen }) => {
           <strong>{recipient?.firstName}</strong>
           <span></span>
         </div>
-        <div className="px-2 pt-2 messages pb-[10vh]" ref={messageScrollRef}>
-          {messages &&
-            messages.map((m, i) => (
-              <div
-                key={i}
-                className={`${
-                  m.senderId === user?._id ? "message self " : "message "
-                } `}
-              >
-                <div>{m.text}</div>
-                <div
-                  className={`${
-                    m.senderId === user?._id
-                      ? "message-footer self"
-                      : "message-footer "
-                  } `}
-                >
-                  {moment(m.createdAt).calendar()}
-                </div>
-              </div>
-            ))}
+        <div className=" px-2 pt-2 messages pb-[10vh]" ref={messageScrollRef}>
+          {sendAndReceivedMessages(messages, user)}
         </div>
-        <div className="absolute bottom-0 left-0 right-0 flex items-center max-h-[10vh] justify-between chat-input">
-          <InputEmojiWrapper
-            text={textMessage}
-            handleChange={handleOnMessageType}
-          />
-          <SendOutlined
-            className="content-center px-4 py-3 text-xl bg-blue-600 rounded-full"
-            onClick={() =>
-              sendTextMessage(
-                textMessage,
-                user?._id,
-                recipientId,
-                currentChat._id,
-                setTextMessage
-              )
-            }
-          />
+        <div className="absolute bottom-0 left-0 right-0 flex py-2 bg-black/80">
+          <div className="flex-1 w-[85%]">
+            <InputEmojiWrapper
+              text={textMessage}
+              handleChange={handleOnMessageType}
+            />
+          </div>
+          <div className="content-center flex-none mr-3 text-center">
+            <SendOutlined
+              className="px-3 py-3 text-xl bg-blue-600 rounded-full "
+              onClick={() =>
+                sendTextMessage(
+                  textMessage,
+                  user?._id,
+                  recipientId,
+                  currentChat._id,
+                  setTextMessage
+                )
+              }
+            />
+          </div>
         </div>
       </div>
     </>

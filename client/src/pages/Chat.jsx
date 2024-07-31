@@ -22,7 +22,7 @@ export const Chat = () => {
             isChatBoxOpen
               ? "hidden md:block col-span-3"
               : "md:col-span-3 col-span-8 relative"
-          } "px-3 mb-2  w-full"`}
+          } px-2 w-full`}
         >
           <SearchUsers
             setIsSearching={setIsSearching}
@@ -33,13 +33,15 @@ export const Chat = () => {
             onClick={handleClearSearchScreen}
             className="absolute rounded-md z-10 w-full min-h-[calc(100vh-15vh)] bg-black bg-opacity-85"
           ></div>
-          <PotentialChats />
-          <ChatList setIsChatBoxOpen={setIsChatBoxOpen} />
+          <div className="relative max-h-[calc(100vh-18vh)] overflow-scroll">
+            <PotentialChats />
+            <ChatList setIsChatBoxOpen={setIsChatBoxOpen} />
+          </div>
         </div>
         <div
           className={`${
             !isChatBoxOpen ? "hidden md:block" : "md:col-span-5 col-span-8"
-          } col-span-5 md:pl-2 content-center`}
+          } col-span-5 content-center`}
         >
           <ChatBox setIsChatBoxOpen={setIsChatBoxOpen} />
         </div>

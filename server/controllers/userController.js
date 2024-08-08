@@ -15,7 +15,9 @@ export const registerUser = async (req, res) => {
     if (!validator.isMobilePhone(phoneNumber))
       return res.status(400).json({ message: "Invalid phone number" });
     if (!validator.isStrongPassword(password))
-      return res.status(400).json({ message: "Passwords should be strong e.g.(Msdian@01)" });
+      return res
+        .status(400)
+        .json({ message: "Passwords should be strong e.g.(Msdian@01)" });
 
     let user = await userModal.findOne({ phoneNumber });
     if (user)
@@ -88,7 +90,7 @@ export const getUser = async (req, res) => {
   try {
     const { userId } = req.params;
     if (!userId) return res.status(200).json(null);
-    const user = await userModal.findOne({ _id: userId });
+    const user = await userModal.findOne({ _id: userId }, { password: 0 });
     res.status(200).json(user);
   } catch (error) {
     res.status(500).json(error);

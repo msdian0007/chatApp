@@ -4,6 +4,10 @@
 
 Welcome to ChatApp, a real-time messaging application that keeps you connected with your friends and colleagues. With an intuitive interface and a range of features, ChatApp makes communication seamless and fun.
 
+## Live Website
+
+You can visit the live version of chatApp app here: [Chat App](https://msdian0007.github.io/chatApp/)
+
 ## Features
 
 1. **User Registration and Login:**
